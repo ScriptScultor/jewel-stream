@@ -8,15 +8,15 @@ import { Box } from "@mui/material";
 let routeList = [
   {
     name: "Gold",
-    path: "/about",
+    path: "/jewelStream",
   },
   {
     name: "Silver",
-    path: "/about",
+    path: "/derick",
   },
   {
     name: "Platinum",
-    path: "/about",
+    path: "/harsh",
   },
   {
     name: "Diamond",
@@ -39,10 +39,10 @@ const Header = () => {
           <Navbar.Brand as={Link} to="/">
             <img
               className="logo"
-              src="https://i.ibb.co/DWbkNSq/jewelry2-1-removebg-preview.png"
+              src="https://drive.google.com/uc?export=view&id=1I0wdxR7U_nTXZBglx9U7BMDYAZB2ii6Y"
               alt=""
             />
-          </Navbar.Brand>
+                    </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
