@@ -9,7 +9,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import "./NavbarLink.css";
 
-function TextWithPopover({ title }) {
+function NavbarLink({ title }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -68,4 +68,4 @@ function TextWithPopover({ title }) {
   );
 }
 
-export default TextWithPopover;
+export default NavbarLink;

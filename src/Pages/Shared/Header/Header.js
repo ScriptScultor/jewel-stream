@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
 import { Box } from "@mui/material";
 import NavbarAvatar from "./NavAvatar/NavAvatar";
-import NavBarLink from "./NavbarLink/NavbarLink";
+import NavbarLink from "./NavbarLink/NavbarLink";
 
 let routeList = [
   {
@@ -47,7 +47,7 @@ const Header = () => {
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
               {routeList.map((route) => {
-                return <NavBarLink title={route.name} />;
+                return <NavbarLink title={route.name} />;
               })}
               <Box sx={{ mr: "auto" }} />
               <NavbarAvatar />
