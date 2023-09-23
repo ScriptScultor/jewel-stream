@@ -3,7 +3,8 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
 import { Box } from "@mui/material";
-import NavAvatar from "./NavAvatar/NavAvatar";
+import NavbarAvatar from "./NavAvatar/NavAvatar";
+import NavBarLink from "./NavbarLink/NavbarLink";
 
 let routeList = [
   {
@@ -46,21 +47,10 @@ const Header = () => {
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
               {routeList.map((route) => {
-                return (
-                  <NavLink
-                    ac
-                    as={Link}
-                    to={route.path}
-                    className="navbar-link-text nav-link-ltr"
-                    activeClassName="nav-link-active"
-                  >
-                    {route.name}
-                  </NavLink>
-                );
+                return <NavBarLink title={route.name} />;
               })}
-
               <Box sx={{ mr: "auto" }} />
-              <NavAvatar />
+              <NavbarAvatar />
             </Nav>
           </Navbar.Collapse>
         </Container>
