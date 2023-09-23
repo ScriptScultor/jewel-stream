@@ -1,103 +1,139 @@
-import { Alert, CircularProgress } from "@mui/material";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
-import "./Login.css";
+import { Alert, Button, Snackbar } from "@mui/material";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import ValidatedTextField from "../../components/Input/TextField";
+import logConsole from "../../Utils/logger";
+import { validationFunctions } from "../../Utils/validations";
 
 const Login = () => {
-  // import data from useAuth, useLocation and useHistory.
   const {
-    loginWithEmailPassword,
-    SignInWithGoogle,
-    isLoading,
-    error,
-    user } = useAuth();
-  const location = useLocation();
-  const history = useHistory();
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm();
 
-  // handle Google Login Function
-  const handleGoogleLogin = () => {
-    SignInWithGoogle(location, history);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
   };
 
-  // Update email and password fields
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    if (data.email) {
-      loginWithEmailPassword(data.email, data.password, location, history);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
+
+    setOpen(false);
   };
 
-  // return jsx here
+  const onSubmit = (data) => {
+    logConsole(JSON.stringify(data, null, 1));
+  };
+
   return (
     <div>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-sm-9 col-md-7 col-lg-5 mx-auto'>
-            <div className='card border-0 shadow rounded-3 my-5'>
-              <div className='card-body p-4 p-sm-5'>
-                <h5 className='card-title text-center mb-5 fw-light fs-5'>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div className="card border-0 shadow rounded-3 my-5">
+              <div className="card-body p-4 p-sm-5">
+                <h5 className="card-title text-center mb-5 fw-light fs-5">
                   Sign In With Your Account
                 </h5>
                 <img
-                  src='https://i.ibb.co/k2W6gGS/3647093.jpg'
-                  className='img-fluid'
-                  alt=''
+                  src="https://i.ibb.co/k2W6gGS/3647093.jpg"
+                  className="img-fluid"
+                  alt=""
                 />
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <TextField
-                    {...register("email", { required: true })}
-                    sx={{ m: 2, width: 1 }}
-                    type='email'
-                    id='standard-basic'
-                    label='Email'
-                    variant='standard'
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    rules={{
+                      required: "Phone number is required",
+                      validate: (value) =>
+                        validationFunctions.validatePhoneNumber(value) || true,
+                    }}
+                    render={({ field }) => (
+                      <ValidatedTextField
+                        label="Phone Number"
+                        value={field.value}
+                        isError={!!errors.phoneNumber}
+                        errorText={errors.phoneNumber?.message}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                      />
+                    )}
                   />
-                  <TextField
-                    sx={{ m: 2, width: 1 }}
-                    {...register("password", { required: true })}
-                    id='standard-password-input'
-                    label='Password'
-                    type='password'
-                    autoComplete='current-password'
-                    variant='standard'
+                  <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                      required: "Password is required",
+                      validate: (value) =>
+                        validationFunctions.validatePassword(value) || true,
+                    }}
+                    render={({ field }) => (
+                      <ValidatedTextField
+                        label="Password"
+                        type="password"
+                        value={field.value}
+                        isError={!!errors.password}
+                        errorText={errors.password?.message}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                      />
+                    )}
                   />
 
-                  <div className='d-grid my-2'>
+                  <div className="d-grid my-2">
                     <Button
-                      type='submit'
-                      variant='contained'
-                      sx={{ width: "50%", mx: "auto" }}>
+                      variant="contained"
+                      type="submit"
+                      sx={{ width: "50%", mx: "auto" }}
+                    >
                       LOGIN
                     </Button>
-                    <br className='my-3' />
+                    <br className="my-3" />
                     <NavLink
                       style={{ textDecoration: "none" }}
-                      to='/registration'>
-                      <Button variant='text'>
+                      to="/registration"
+                    >
+                      <Button variant="text">
                         Haven't Account? Please Registration
                       </Button>
                     </NavLink>
-                    <hr className='my-4' />
+                    <hr className="my-4" />
                     <Button
-                      onClick={handleGoogleLogin}
-                      variant='contained'
-                      color='warning'>
-                      {isLoading ? <CircularProgress size={20} /> : <><i className='fab fa-google me-2'></i> "Sign in with Google"</>}
+                      onClick={handleClick}
+                      variant="contained"
+                      color="warning"
+                    >
+                      Google Login
                     </Button>
                   </div>
                 </form>
-                {user?.email && (
-                  <Alert severity='success'>User Login successfully!</Alert>
-                )}
-                {error && <Alert severity='error'>{error}</Alert>}
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom", // Change this to "top" to make it float down from the top
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          Coming soon!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

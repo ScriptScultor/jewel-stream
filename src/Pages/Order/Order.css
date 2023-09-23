@@ -1,9 +1,0 @@
-.single-package-card {
-  margin-bottom: 25px;
-}
-
-@media screen and (min-width: 566px) {
-  .order-form {
-    width: 50%;
-  }
-}

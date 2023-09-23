@@ -22,28 +22,24 @@ import * as React from "react";
 import Button from "react-bootstrap/Button";
 import { Route, Switch, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
 import AddProduct from "../AddProduct/AddProduct";
 import AddReview from "../AddReview/AddReview";
 import AllOrders from "../AllOrders/AllOrders";
 import MakeAdmin from "../MakeAdmin/MakeAdmin";
 import ManageProducts from "../ManageProducts/ManageProducts";
 import MyOrders from "../MyOrders/MyOrders";
-import Payment from "../Payment/Payment";
 import "./Dashboard.css";
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
   // import logout and admin from use Auth
-  const { LogOut, admin } = useAuth();
   const { window } = props;
   let { path, url } = useRouteMatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const [show, setShow] = React.useState(false);
 
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleDrawerToggle = () => {
@@ -55,87 +51,72 @@ function Dashboard(props) {
       <Toolbar />
       <Divider />
       <List>
-        {admin ? (
-          // Declare admin dashboard options
-          <>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <Link to={`${url}/orders`}>
-                <ListItemText primary='Manage All Order' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <Link to={`${url}/manageproducts`}>
-                <ListItemText primary='Manage All Products' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <AdminPanelSettingsIcon />
-              </ListItemIcon>
-              <Link to={`${url}/admin`}>
-                <ListItemText primary='Make Admin' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <AddShoppingCartIcon />
-              </ListItemIcon>
-              <Link to={`${url}/addproduct`}>
-                <ListItemText primary='Add New Product' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <Link to='/' onClick={LogOut}>
-                <ListItemText primary='LOGOUT' />
-              </Link>
-            </ListItem>
-          </>
-        ) : (
-          // Declare users dashboard options
-          <>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <CreditCardIcon />
-              </ListItemIcon>
-              <Button variant='text' onClick={handleShow}>
-                <ListItemText primary='Pay Now' />
-              </Button>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <RateReviewIcon />
-              </ListItemIcon>
-              <Link to={`${url}/addreview`}>
-                <ListItemText primary='Add Review' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <Link to={`${url}/myorder`}>
-                <ListItemText primary='My Order' />
-              </Link>
-            </ListItem>
-            <ListItem button key={1}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <Link to='/' onClick={LogOut}>
-                <ListItemText primary='LOGOUT' />
-              </Link>
-            </ListItem>
-          </>
-        )}
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <Link to={`${url}/orders`}>
+            <ListItemText primary="Manage All Order" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <Link to={`${url}/manageproducts`}>
+            <ListItemText primary="Manage All Products" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <AdminPanelSettingsIcon />
+          </ListItemIcon>
+          <Link to={`${url}/admin`}>
+            <ListItemText primary="Make Admin" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <AddShoppingCartIcon />
+          </ListItemIcon>
+          <Link to={`${url}/addproduct`}>
+            <ListItemText primary="Add New Product" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <CreditCardIcon />
+          </ListItemIcon>
+          <Button variant="text" onClick={handleShow}>
+            <ListItemText primary="Pay Now" />
+          </Button>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <RateReviewIcon />
+          </ListItemIcon>
+          <Link to={`${url}/addreview`}>
+            <ListItemText primary="Add Review" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <ShoppingCartIcon />
+          </ListItemIcon>
+          <Link to={`${url}/myorder`}>
+            <ListItemText primary="My Order" />
+          </Link>
+        </ListItem>
+        <ListItem button key={1}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+        </ListItem>
       </List>
     </div>
   );
@@ -148,36 +129,39 @@ function Dashboard(props) {
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
-          position='fixed'
+          position="fixed"
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
-          }}>
+          }}
+        >
           <Toolbar>
             <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              edge='start'
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}>
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
               <MenuIcon />
             </IconButton>
-            <Typography variant='h5' noWrap component='div'>
+            <Typography variant="h5" noWrap component="div">
               Dashboard
             </Typography>
-            <Typography className='mx-auto' variant='h5' noWrap component='div'>
-              <Link to='/'>
+            <Typography className="mx-auto" variant="h5" noWrap component="div">
+              <Link to="/">
                 <HomeIcon /> Home
               </Link>
             </Typography>
           </Toolbar>
         </AppBar>
         <Box
-          component='nav'
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        >
           <Drawer
             container={container}
-            variant='temporary'
+            variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
@@ -189,11 +173,12 @@ function Dashboard(props) {
                 boxSizing: "border-box",
                 width: drawerWidth,
               },
-            }}>
+            }}
+          >
             {drawer}
           </Drawer>
           <Drawer
-            variant='permanent'
+            variant="permanent"
             sx={{
               display: { xs: "none", sm: "block" },
               "& .MuiDrawer-paper": {
@@ -201,7 +186,8 @@ function Dashboard(props) {
                 width: drawerWidth,
               },
             }}
-            open>
+            open
+          >
             {drawer}
           </Drawer>
         </Box>
@@ -213,9 +199,6 @@ function Dashboard(props) {
             </Route>
             <Route path={`${path}/addreview`}>
               <AddReview />
-            </Route>
-            <Route path={`${path}/payment`}>
-              <Payment />
             </Route>
             <Route path={`${path}/myorder`}>
               <MyOrders />
@@ -235,7 +218,6 @@ function Dashboard(props) {
           </Switch>
         </Box>
       </Box>
-      <Payment show={show} handleClose={handleClose} />
     </>
   );
 }
