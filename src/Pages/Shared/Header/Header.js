@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import NavbarAvatar from "./NavAvatar/NavAvatar";
 import NavbarLink from "./NavbarLink/NavbarLink";
 
+
 let routeList = [
   {
     name: "Gold",
