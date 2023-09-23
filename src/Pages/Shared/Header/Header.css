@@ -94,15 +94,3 @@
 .nav-link-active {
   color: goldenrod;
 }
-.avatar {
-  width: 40px; /* Adjust the width and height as needed */
-  height: 40px;
-  border-radius: 50%; /* Makes the container and image round */
-  overflow: hidden; /* Clips any overflow from the image */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
-}
-
-.avatar img {
-  width: 100%;
-  height: auto;
-}
