@@ -1,9 +1,11 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
 import "./Header.css";
 import { Box } from "@mui/material";
+import NavLinkItem from "./NavLink/NavLinkItem";
+import Avatar from "./Avatar/Avatar";
 
 let routeList = [
   {
@@ -47,38 +49,18 @@ const Header = () => {
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
               {routeList.map((route) => {
-                return (
-                  <NavLink
-                    ac
-                    as={Link}
-                    to={route.path}
-                    className="navbar-link-text nav-link-ltr"
-                    activeClassName="nav-link-active"
-                  >
-                    {route.name}
-                  </NavLink>
-                );
+                return <NavLinkItem title={route.name} />;
               })}
 
               <Box sx={{ mr: "auto" }} />
               {!user.email ? (
                 <>
-                  <Nav.Link as={Link} to="/login">
-                    <div className="avatar">
-                      <img
-                        src="https://i.ibb.co/ZJPQfBr/115-1150152-default-profile-picture-avatar-png-green.jpg"
-                        alt=""
-                      />
-                    </div>
+                  <Nav.Link as={Link} to="/login" className="p-0 m-0">
+                    <Avatar />
                   </Nav.Link>
                 </>
               ) : (
-                <div className="avatar">
-                  <img
-                    src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800"
-                    alt=""
-                  />
-                </div>
+                <Avatar />
               )}
             </Nav>
           </Navbar.Collapse>
