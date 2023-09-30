@@ -12,6 +12,7 @@
   align-items: center;
   text-align: center;
   font-family: sans-serif;
+  cursor: pointer;
 }
 
 .navbar-link-text:hover {
@@ -40,4 +41,42 @@
 
 .nav-link-active {
   color: goldenrod;
+}
+
+
+.navbar-link-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 100%; /* Position the dropdown below the link */
+  left: 0;
+  z-index: 1; /* Ensure the dropdown is above other content */
+}
+
+.dropdown {
+  background-color: #ffffff; /* Background color for the dropdown */
+  border: 1px solid #ccc; /* Border for the dropdown */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift effect */
+  padding: 10px; /* Padding inside the dropdown */
+  cursor: pointer;
+
+  /* Add any other styling you want for the dropdown here */
+}
+
+/* Styling for Subcategory Items */
+.dropdown-item {
+  color: #333; /* Text color for subcategory items */
+  font-size: 2px; /* Font size for subcategory items */
+  padding: 9px 9px;
+  border-radius: 5px; /* Vertical padding for subcategory items */
+  transition: background-color 0.3s ease-in-out; /* Add a smooth background color transition on hover */
+  /* Add any other styling you want for subcategory items here */
+}
+
+.dropdown-item:hover {
+  background-color: #dede66;
 }

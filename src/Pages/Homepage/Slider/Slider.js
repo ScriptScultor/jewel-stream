@@ -15,9 +15,9 @@ function Slider() {
           />
           <Carousel.Caption className='left'>
             <p className='slider-text subtitle'>AMAZING FROM JEWELRY</p>
-            <h3 className='slider-title'>Dimond Rings Decoration</h3>
+            {/* <h3 className='slider-title'>Dimond Rings Decoration</h3> */}
             <p className='slider-text'>Discount 20% Off For Ruby Members</p>
-            <Button className='px-4 py-3 rounded-pill mt-4' variant='danger'>
+            <Button className='discover-btn' variant='danger'>
               DISCOVER NOW
             </Button>
           </Carousel.Caption>
@@ -31,9 +31,9 @@ function Slider() {
 
           <Carousel.Caption className='right'>
             <p className='slider-text subtitle'>AMAZING FROM JEWELRY</p>
-            <h3 className='slider-title'>Gold Rings Decoration</h3>
+            {/* <h3 className='slider-title'>Gold Rings Decoration</h3> */}
             <p className='slider-text'>Discount 20% Off For Ruby Members</p>
-            <Button className='px-4 py-3 rounded-pill mt-4' variant='danger'>
+            <Button className='discover-btn'>
               DISCOVER NOW
             </Button>
           </Carousel.Caption>

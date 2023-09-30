@@ -13,7 +13,7 @@ const Home = () => {
     <div>
       <Slider />
       <Category />
-      <Products quantity={6} />
+      <Products quantity={4} />
       <div className='text-center'>
         <Link to='/products' style={{ textDecoration: "none" }}>
           <Button variant='contained' color='secondary'>

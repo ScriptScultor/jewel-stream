@@ -13,8 +13,8 @@
   font-size: 18px;
   font-weight: 500;
   display: flex;
-  align-items: center;
-  gap: 4px;
+    align-items: center;
+  gap: 2.5rem;
 }
 
 .bg-navbar {

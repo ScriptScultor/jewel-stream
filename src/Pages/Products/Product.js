@@ -8,13 +8,13 @@ import { Link } from "react-router-dom";
 import "./Products.css";
 
 const Product = ({ product }) => {
-
-  // return every product card
+  // return every product card  
+  let imageLink = product.product_images //.includes('$harsh$') ? product.product_images.split('$harsh$')[0] : product.product_images; 
   return (
     <Col xs={12} md={4}>
       <Card sx={{ minWidth: "90%" }}>
         <CardActionArea>
-          <CardMedia height={352} component='img' image={product.image} alt='jewelry' />
+          <CardMedia height={352} component='img' image={imageLink} alt='jewelry' />
           <CardContent>
             <p className='product-title'>{product.title}</p>
             <p className='product-vendor'>{product.vendor}</p>
@@ -22,7 +22,7 @@ const Product = ({ product }) => {
           </CardContent>
         </CardActionArea>
         <CardActions className='d-flex justify-content-between'>
-          <p className='product-price'>${product.price}</p>
+          <p className='product-price'>${product.product_price}</p>
           <Link to={`/product/${product._id}`}>
             <Button variant='contained'>Order Now</Button>
           </Link>
