@@ -9,9 +9,14 @@ const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
   const categoryToBeFetched = useLocation();
   const {state} = categoryToBeFetched;
+  let productsUrl =`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=10`
+
+  if(state){
+      productsUrl = `http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${state.some}&subtype=${state.subCategory}&offset=0&limit=10`;
+  }
   // fetch all products from database
   useEffect(() => {
-    fetch(`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${ state ? state.some : 'all'}&subtype=${state ? state.subCategory : 'all'}&offset=0&limit=10`, {
+    fetch(productsUrl, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${Token}`,
@@ -20,7 +25,7 @@ const Products = ({ quantity }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.data.pop() // product limit poped here
+        // data.data.pop() // product limit poped here
         setProducts(data.data);
       });
   }, [state]);
