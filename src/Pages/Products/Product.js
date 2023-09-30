@@ -9,23 +9,24 @@ import "./Products.css";
 
 const Product = ({ product }) => {
   // return every product card  
-  let imageLink = product.product_images //.includes('$harsh$') ? product.product_images.split('$harsh$')[0] : product.product_images; 
+  console.log('LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOO',product)
+  let imageLink = product.product_images.includes('$harsh$') ? product.product_images.split('$harsh$')[0] : product.product_images; 
   return (
     <Col xs={12} md={4}>
       <Card sx={{ minWidth: "90%" }}>
         <CardActionArea>
           <CardMedia height={352} component='img' image={imageLink} alt='jewelry' />
           <CardContent>
-            <p className='product-title'>{product.title}</p>
-            <p className='product-vendor'>{product.vendor}</p>
-            <Rating name='read-only' value={product.rating} readOnly />
+            <p className='product-title'>{product.product_name}</p>
+            <p className='product-vendor'>{product.product_category}</p>
+            <Rating name='read-only' value={product.row_numbers} readOnly />
           </CardContent>
         </CardActionArea>
         <CardActions className='d-flex justify-content-between'>
-          <p className='product-price'>${product.product_price}</p>
-          <Link to={`/product/${product._id}`}>
-            <Button variant='contained'>Order Now</Button>
-          </Link>
+          <p className='product-price'>Rs.{product.product_price}</p>
+          <Link to={`/product/${product.row_numbers}`}>
+            <Button variant='contained' className='order-button'>Order Now</Button>
+          </Link> 
         </CardActions>
       </Card>
     </Col>

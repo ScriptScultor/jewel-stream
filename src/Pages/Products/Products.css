@@ -1,4 +1,4 @@
-.products-title {
+/* .products-title {
   font-size: 36px;
   font-family: "Lucida Sans Unicode", "Lucida Grande";
   font-weight: 700;
@@ -17,4 +17,59 @@
   font-size: 32px;
   color: rgb(0, 167, 83);
   font-weight: 700;
+  padding: 1rem;
+  margin:0.5rem;
+} */
+
+
+/* Default styling for larger screens */
+.product-title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.product-vendor {
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: grey;
+}
+
+.product-price {
+  font-size: 32px;
+  color: rgb(0, 167, 83);
+  font-weight: 700;
+  padding: 1rem;
+  margin: 0.5rem;
+}
+
+.order-button {
+  background-color: rgb(25, 228, 126); /* Green background color */
+  color: black; /* Text color */
+  font-weight: 600; /* Font weight */
+  padding: 0.5rem 1rem; /* Padding */
+  border: none; /* Remove button border */
+  cursor: pointer; /* Add a pointer cursor */
+  font-size: 4rem;
+}
+/* Media query for screens with a maximum width of 768px (typical for mobile devices) */
+@media (max-width: 768px) {
+  .product-title {
+    font-size: 20px; /* Adjust font size for smaller screens */
+  }
+
+  .product-vendor {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .product-price {
+    font-size: 24px; /* Adjust font size for smaller screens */
+  }
+
+  .order-button {
+    padding: 0.3rem 0.8rem; /* Adjust padding for smaller screens */
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  /* Optionally, you can adjust other styles or layout for mobile devices */
 }

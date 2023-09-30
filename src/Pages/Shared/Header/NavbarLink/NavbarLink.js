@@ -116,12 +116,9 @@ function NavbarLink({ title, subcategory }) {
             <List className="p-0">
               {subcategory.map((item, index) => (
                 <ListItem className="py-1" key={index}>
-                <Link to={{
-                      pathname: "/products",
-                      state: { some: title, subCategory: item } // Pass parameters in the state
-                    }} className="dropdown-item">
+                <Link to={`/products/${title}/${item}`} className="dropdown-item">
                     <ListItemText primary={item} />
-                  </Link>
+                </Link>
                 </ListItem>
               ))}
             </List>

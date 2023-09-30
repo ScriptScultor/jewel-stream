@@ -3,16 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Row } from "react-bootstrap";
 import Product from "./Product";
 import "./Products.css";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const Token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJjYXRlZ29yeW5hbWUiOiJzaG9wIG93bmVyIiwiaWF0IjoxNjk1ODgxODA1fQ.Si1-xq0zBVgpOYAOSC9Z04G8Unc8BAKAEbopFlEW1fY'
 const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
-  const categoryToBeFetched = useLocation();
-  const {state} = categoryToBeFetched;
-  let productsUrl =`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=10`
+  const { mainCategory, subCategory } = useParams();
+  let productsUrl =`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=8`
 
-  if(state){
-      productsUrl = `http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${state.some}&subtype=${state.subCategory}&offset=0&limit=10`;
+  if(mainCategory && subCategory){
+      productsUrl = `http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
   }
   // fetch all products from database
   useEffect(() => {
@@ -28,7 +27,7 @@ const Products = ({ quantity }) => {
         // data.data.pop() // product limit poped here
         setProducts(data.data);
       });
-  }, [state]);
+  }, [productsUrl, mainCategory, subCategory]);
   return (
     <Container className="my-md-5 my-3 text-center">
       <p className="products-title">Feature Products</p>

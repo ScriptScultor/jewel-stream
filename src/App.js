@@ -36,6 +36,9 @@ function App() {
           <Route exact path="/registration">
             <Registration />
           </Route>
+          <Route exact path="/products/:mainCategory/:subCategory">
+            <Products />
+          </Route>
           <Route exact path="/products">
             <Products />
           </Route>
