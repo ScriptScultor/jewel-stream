@@ -8,24 +8,23 @@ const Token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJjYXRlZ29y
 const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
   const { mainCategory, subCategory } = useParams();
-  let productsUrl =`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=8`
+  let productsUrl =`http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=${quantity ? quantity : 10}`
 
   if(mainCategory && subCategory){
-      productsUrl = `http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
+      productsUrl = `http://localhost:8080/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=${quantity ? quantity : 10}`;
   }
   // fetch all products from database
   useEffect(() => {
     fetch(productsUrl, {
       method: "GET",
-      headers: {
-        'Authorization': `Bearer ${Token}`,
-        'Content-Type': 'application/json',
-      },
+      // headers: {
+      //   'Authorization': `Bearer ${Token}`,
+      //   'Content-Type': 'application/json',
+      // },
     })
       .then((res) => res.json())
       .then((data) => {
-        // data.data.pop() // product limit poped here
-        setProducts(data.data);
+        setProducts(data?.data?.result);
       });
   }, [productsUrl, mainCategory, subCategory]);
   return (
