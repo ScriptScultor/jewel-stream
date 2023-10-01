@@ -9,7 +9,7 @@ import "./NavLinkItem.css";
 
 const options = ["Bracelet", "Mangalsutra", "Bangels", "Earings"];
 
-export default function NavLinkItem({ title }) {
+export default function NavLinkItem({ title, subcategory }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
