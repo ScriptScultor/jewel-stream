@@ -16,6 +16,9 @@ function NavbarLink({ title, subcategory }) {
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
   };
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
 
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
@@ -116,7 +119,7 @@ function NavbarLink({ title, subcategory }) {
             <List className="p-0">
               {subcategory.map((item, index) => (
                 <ListItem className="py-1" key={index}>
-                <Link to={`/products/${title}/${item}`} className="dropdown-item">
+                <Link to={`/products/${title}/${item}`} onClick={closeDropdown} className="dropdown-item">
                     <ListItemText primary={item} />
                 </Link>
                 </ListItem>

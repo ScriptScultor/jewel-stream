@@ -39,12 +39,9 @@ const Product = ({ product }) => {
             <div className='product-details-overlay'>
               <p className='product-title'>{product.product_name}</p>
               <p className='product-vendor'>{product.product_category}</p>
-              <Rating name='read-only' value={product.row_numbers} readOnly />
+              {/* <Rating name='read-only' value={product.row_numbers} readOnly /> */}
               <p className='product-price'>Rs.{product.product_price}</p>
-              {/* <p className='product-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Sed facilisis, nunc vel fermentum facilisis, neque nunc vestibulum eros, non auctor erat est 
-              vitae purus. Nunc sed ex sit amet velit sodales hendrerit. Praesent ut orci tincidunt, consectetur 
-              turpis nec, tincidunt neque.</p> */}
+              <p className='product-description'>BIS | HallMark | Gold Kada</p>
               <Link to={`/product/${product.row_numbers}`} className='order-link'>
                 Order Now
               </Link>

@@ -1,11 +1,15 @@
+:root {
+  font-size: 16px; /* Set 1rem = 16px as a root font size */
+}
+
 .navbar-link-text {
-  font-size: 0.9333rem;
+  font-size: 0.0583rem; /* Equivalent to 0.9333px (0.9333px / 16px = 0.0583rem) */
   font-weight: normal;
   text-transform: uppercase;
   text-decoration: none;
   color: #031d44;
-  padding: 20px 0px;
-  margin: 0px 20px;
+  padding: 1.25rem 0; /* Equivalent to 20px 0 (20px / 16px = 1.25rem) */
+  margin: 0 1.25rem; /* Equivalent to 0px 20px (20px / 16px = 1.25rem) */
   display: inline-block;
   position: relative;
   opacity: 0.75;
@@ -21,8 +25,8 @@
 }
 
 .navbar-link-text::before {
-  transition: 300ms;
-  height: 2px;
+  transition: 0.3s;
+  height: 0.125rem; /* Equivalent to 2px (2px / 16px = 0.125rem) */
   content: "";
   position: absolute;
   background-color: #031d44;
@@ -30,7 +34,7 @@
 
 .nav-link-ltr::before {
   width: 0%;
-  top: 10px;
+  top: 0.625rem; /* Equivalent to 10px (10px / 16px = 0.625rem) */
   left: 0;
 }
 
@@ -42,7 +46,6 @@
 .nav-link-active {
   color: goldenrod;
 }
-
 
 .navbar-link-container {
   position: relative;
@@ -58,10 +61,10 @@
 
 .dropdown {
   background-color: #ffffff; /* Background color for the dropdown */
-  border: 1px solid #ccc; /* Border for the dropdown */
-  border-radius: 5px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift effect */
-  padding: 10px; /* Padding inside the dropdown */
+  border: 0.0625rem solid #ccc; /* Equivalent to 1px (1px / 16px = 0.0625rem) */
+  border-radius: 0.3125rem; /* Equivalent to 5px (5px / 16px = 0.3125rem) */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* Equivalent to 2px 4px rgba(0, 0, 0, 0.1) */
+  padding: 0.625rem; /* Equivalent to 10px (10px / 16px = 0.625rem) */
   cursor: pointer;
 
   /* Add any other styling you want for the dropdown here */
@@ -69,11 +72,11 @@
 
 /* Styling for Subcategory Items */
 .dropdown-item {
-  color: #333; /* Text color for subcategory items */
-  font-size: 2px; /* Font size for subcategory items */
-  padding: 9px 9px;
-  border-radius: 5px; /* Vertical padding for subcategory items */
-  transition: background-color 0.3s ease-in-out; /* Add a smooth background color transition on hover */
+  color: #333;
+  font-size: 0.125rem; /* Equivalent to 2px (2px / 16px = 0.125rem) */
+  padding: 0.5625rem 0.5625rem; /* Equivalent to 9px 9px (9px / 16px = 0.5625rem) */
+  border-radius: 0.3125rem; /* Equivalent to 5px (5px / 16px = 0.3125rem) */
+  transition: background-color 0.3s ease-in-out;
   /* Add any other styling you want for subcategory items here */
 }
 
