@@ -11,30 +11,14 @@ const ManageOrder = ({ order }) => {
 
   // Handle Approved function
   const handleStatus = (id) => {
-    const url = `https://jewelry-niche-server.vercel.app/orders/${id}`;
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(order),
-    }).then();
+
   };
 
   // Handle delete function
   const handleDelete = (id) => {
     const procced = window.confirm("Are you sure you want to Delete ?");
     if (procced) {
-      fetch(`https://jewelry-niche-server.vercel.app/orders/${id}`, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((deleteData) => {
-          console.log(deleteData);
-          if (deleteData.deletedCount > 0) {
-            alert("Deleted Successfully");
-          }
-        });
+
     }
   };
 
@@ -42,12 +26,17 @@ const ManageOrder = ({ order }) => {
     <Col xs={12} md={4}>
       <Card sx={{ minWidth: "90%" }}>
         <CardActionArea>
-          <CardMedia height={352} component='img' image={product.image} alt='jewelry' />
+          <CardMedia
+            height={352}
+            component="img"
+            image={product.image}
+            alt="jewelry"
+          />
           <CardContent>
-            <p className='product-title'>{product.title}</p>
-            <p className='product-vendor'>{status}</p>
+            <p className="product-title">{product.title}</p>
+            <p className="product-vendor">{status}</p>
             <p>{order.email}</p>
-            <p className='product-price'>${product.price}</p>
+            <p className="product-price">${product.price}</p>
           </CardContent>
         </CardActionArea>
         <CardActions>
@@ -55,17 +44,18 @@ const ManageOrder = ({ order }) => {
             <Col xs={6}>
               {status === "pending" ? (
                 <Button
-                  variant='contained'
-                  color='secondary'
-                  onClick={() => handleStatus(_id)}>
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleStatus(_id)}
+                >
                   Approved
                 </Button>
               ) : (
-                <Alert severity='success'>Approved!</Alert>
+                <Alert severity="success">Approved!</Alert>
               )}
             </Col>
             <Col xs={6}>
-              <Button variant='contained' onClick={() => handleDelete(_id)}>
+              <Button variant="contained" onClick={() => handleDelete(_id)}>
                 Delete
               </Button>
             </Col>

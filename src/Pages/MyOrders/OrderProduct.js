@@ -13,16 +13,6 @@ const OrderProduct = ({ order }) => {
   const handleDelete = (id) => {
     const procced = window.confirm("Are you sure you want to Delete ?");
     if (procced) {
-      fetch(`https://jewelry-niche-server.vercel.app/orders/${id}`, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((deleteData) => {
-          if (deleteData.deletedCount > 0) {
-            console.log(deleteData);
-            alert("Deleted Successfully");
-          }
-        });
     }
   };
 
@@ -31,16 +21,21 @@ const OrderProduct = ({ order }) => {
     <Col xs={12} md={4}>
       <Card sx={{ minWidth: "90%" }}>
         <CardActionArea>
-          <CardMedia height={352} component='img' image={product.image} alt='jewelry' />
+          <CardMedia
+            height={352}
+            component="img"
+            image={product.image}
+            alt="jewelry"
+          />
           <CardContent>
-            <p className='product-title'>{product.title}</p>
-            <p className='product-vendor'>{status}</p>
-            <Rating name='read-only' value={product.rating} readOnly />
+            <p className="product-title">{product.title}</p>
+            <p className="product-vendor">{status}</p>
+            <Rating name="read-only" value={product.rating} readOnly />
           </CardContent>
         </CardActionArea>
-        <CardActions className='d-flex justify-content-between'>
-          <p className='product-price'>${product.price}</p>
-          <Button variant='contained' onClick={() => handleDelete(_id)}>
+        <CardActions className="d-flex justify-content-between">
+          <p className="product-price">${product.price}</p>
+          <Button variant="contained" onClick={() => handleDelete(_id)}>
             Delete Now
           </Button>
         </CardActions>

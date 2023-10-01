@@ -1,23 +1,25 @@
 import { Alert, Button, Snackbar } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ValidatedTextField from "../../components/Input/TextField";
-import logConsole from "../../Utils/logger";
 import { validationFunctions } from "../../Utils/validations";
+
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../../store/auth/login";
+import AuthButton from "../../components/Button/AuthButton";
 
 const Login = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const loginData = useSelector((state) => state.auth);
 
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -27,8 +29,21 @@ const Login = () => {
     setOpen(false);
   };
 
-  const onSubmit = (data) => {
-    logConsole(JSON.stringify(data, null, 1));
+  const onSubmit = async (data) => {
+    try {
+      const result = await dispatch(
+        loginUser({
+          phone: data.phoneNumber,
+          password: data.password,
+        })
+      );
+
+      if (result.success === true) {
+        return history.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -41,11 +56,18 @@ const Login = () => {
                 <h5 className="card-title text-center mb-5 fw-light fs-5">
                   Sign In With Your Account
                 </h5>
+
                 <img
                   src="https://i.ibb.co/k2W6gGS/3647093.jpg"
                   className="img-fluid"
                   alt=""
                 />
+                <div className="mb-2">
+                  {loginData.error != null ? (
+                    <Alert severity="error">{loginData.error}</Alert>
+                  ) : null}
+                </div>
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Controller
                     name="phoneNumber"
@@ -90,13 +112,7 @@ const Login = () => {
                   />
 
                   <div className="d-grid my-2">
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      sx={{ width: "50%", mx: "auto" }}
-                    >
-                      LOGIN
-                    </Button>
+                    <AuthButton title="Login" isLoading={loginData.isLoading} />
                     <br className="my-3" />
                     <NavLink
                       style={{ textDecoration: "none" }}
@@ -107,13 +123,13 @@ const Login = () => {
                       </Button>
                     </NavLink>
                     <hr className="my-4" />
-                    <Button
+                    {/* <Button
                       onClick={handleClick}
                       variant="contained"
                       color="warning"
                     >
                       Google Login
-                    </Button>
+                    </Button> */}
                   </div>
                 </form>
               </div>

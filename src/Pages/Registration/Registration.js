@@ -1,28 +1,40 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import logConsole from "../../Utils/logger";
 import { validationFunctions } from "../../Utils/validations";
 import ValidatedSelect from "../../components/Input/Dropdown";
 import ValidatedTextField from "../../components/Input/TextField";
 import Button from "@mui/material/Button";
-import { HttpMethod, makeApiRequest } from "../../data/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../store/auth/register";
+import AuthButton from "../../components/Button/AuthButton";
+
+const defaultValues = {
+  fullName: "Derick",
+  email: "test@gmail.com",
+  phoneNumber: "9972990638",
+  password: "Test@123",
+  category: "Option 1",
+  gstNumber: "123456789012345",
+};
 
 const Registration = () => {
-  const { control, handleSubmit, formState, clearErrors } = useForm();
+  const { control, handleSubmit, formState, clearErrors } = useForm({
+    defaultValues,
+  });
+  const registerData = useSelector((state) => state.register);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const onSubmit = async (data) => {
-    // const { fullName, email, phoneNumber, password, category, gstNumber } =
-    //   data;
     try {
-      const response = await makeApiRequest({
-        method: HttpMethod.POST,
-        url: "/todos/1",
-      });
+      const res = await dispatch(registerUser(data));
 
-      logConsole(response.completed);
+      if (res.success) {
+        history.push("/");
+      }
     } catch (error) {
-      logConsole(error);
+      history.push("/error");
     }
   };
 
@@ -185,14 +197,10 @@ const Registration = () => {
                     )}
                   />
                   <div className="d-grid mt-4">
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      sx={{ width: "50%", mx: "auto" }}
-                      disabled={formState.isSubmitting}
-                    >
-                      REGISTRATION
-                    </Button>
+                    <AuthButton
+                      title="REGISTRATION"
+                      isLoading={registerData.isLoading}
+                    />
                     <hr className="my-4" />
                     <NavLink style={{ textDecoration: "none" }} to="/login">
                       <Button variant="text">

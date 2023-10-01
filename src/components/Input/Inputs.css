@@ -1,7 +1,7 @@
 .form-select-container {
-  height: 80px;
+  min-height: 70px;
 }
 
 .form-input-container {
-  height: 80px;
+  min-height: 70px;
 }

@@ -11,8 +11,17 @@ import Products from "./Pages/Products/Products";
 import Registration from "./Pages/Registration/Registration";
 import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUserData } from "./store/auth/user";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  });
+
   return (
     <div className="App">
       <Router>
