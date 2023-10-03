@@ -8,9 +8,10 @@ import { makeApiRequest } from "../../data/axios";
 import logConsole from "../../Utils/logger";
 const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
-  const { mainCategory, subCategory } = useParams();
+  let { mainCategory, subCategory } = useParams();
+console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',mainCategory,subCategory)
+  
   let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=8`;
-
   if (mainCategory && subCategory) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
   }
@@ -19,10 +20,9 @@ const Products = ({ quantity }) => {
     makeApiRequest({
       url: productsUrl,
     })
-      .then((res) => res.json())
       .then((data) => {
         // data.data.pop() // product limit poped here
-        setProducts(data.data);
+        setProducts(data.data.result);
       })
       .catch((err) => {
         logConsole(err);
@@ -30,15 +30,16 @@ const Products = ({ quantity }) => {
   }, [productsUrl, mainCategory, subCategory]);
   return (
     <Container className="my-md-5 my-3 text-center">
-      <p className="products-title">Feature Products</p>
-      <img src="https://i.ibb.co/jrcL1wV/divider1.png" alt="" />
+      <p className="products-page-title">{mainCategory ? mainCategory : 'All'} {subCategory ? subCategory : 'Products'}</p>
+      {/* <img className="image-link" src="https://i.ibb.co/jrcL1wV/divider1.png" alt="" /> */}
+      <hr className="divider" />
       <br />
       <br />
       <Row className="g-3 g-sm-5">
-        {products.map((product) => {
+        {products.map((product,index) => {
           return (
             <>
-              <Product product={product} />
+              <Product product={product} key = {index} />
             </>
           );
         })}

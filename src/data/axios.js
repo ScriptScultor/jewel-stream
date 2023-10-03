@@ -44,7 +44,7 @@ const makeApiRequest = async ({ method, url, data = {} }) => {
           message = response.data.error;
         } else if (typeof response.data.error === "object") {
           // If response.data.error is an object, stringify it and use it as the error message
-          message = "OOPS! Something went wrong.";
+          message = JSON.stringify(response.data.error) || "OOPS! Something went wrong.";
         }
       }
 

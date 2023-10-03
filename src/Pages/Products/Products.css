@@ -1,6 +1,39 @@
 :root {
   font-size: 16px; /* Set 1rem = 16px as a root font size */
 }
+.image-link{
+  color: blue;
+}
+  .products-page-title{
+    font-size: 3rem;
+    font-family: "Lucida Sans Unicode", "Lucida Grande";
+    /* font-weight: 700; */
+    font-style: italic;
+    /* margin: 2rem; */
+    /* padding: 1rem; */
+    background-image:linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+    linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+    linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .divider {
+    border: none;
+    width: 100%;
+    height: 1rem; /* Adjust the thickness of the line */
+    background: repeating-linear-gradient(
+      -45deg, /* Adjust the angle to control the spiral direction */
+      transparent,
+      transparent 0px, /* Adjust the spiral gap width */
+      gold 5px, /* Gold color */
+      gold 9px /* Adjust the width of the gold spiral segment */
+    );
+    margin: 1rem 0; /* Adjust the margin as needed */
+  }
 
 .products-title {
   font-size: 1rem; /* Equivalent to 16px */
@@ -86,4 +119,25 @@
 
 .product-card:hover .product-details-overlay {
   opacity: 1; /* Show overlay on hover */
+}
+
+
+.floating-filter-button {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+/* CSS for the button when hovered */
+.floating-filter-button:hover {
+  background-color: #0056b3;
 }

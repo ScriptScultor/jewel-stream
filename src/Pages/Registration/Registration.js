@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { validationFunctions } from "../../Utils/validations";
@@ -8,7 +8,8 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/auth/register";
 import AuthButton from "../../components/Button/AuthButton";
-
+import { makeApiRequest } from "../../data/axios";
+import logConsole from "../../Utils/logger";
 const defaultValues = {
   fullName: "Derick",
   email: "test@gmail.com",
@@ -22,6 +23,8 @@ const Registration = () => {
   const { control, handleSubmit, formState, clearErrors } = useForm({
     defaultValues,
   });
+  const [categories, setCategories] = useState([]);
+
   const registerData = useSelector((state) => state.register);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -37,6 +40,19 @@ const Registration = () => {
       history.push("/error");
     }
   };
+  let categoriesUrl = '/jewelstream/api/v1/getusercategories'
+  useEffect(() => {
+    makeApiRequest({
+      url: categoriesUrl, // Replace with your API endpoint for categories
+    })
+      .then((data) => {
+        setCategories(data.data); // Assuming the response data is an array of objects
+      })
+      .catch((err) => {
+        logConsole(err);
+      });
+  }, [categoriesUrl]);
+  
 
   return (
     <div>
@@ -165,10 +181,10 @@ const Registration = () => {
                         }}
                         isError={Boolean(formState.errors.category)}
                         errorText={formState.errors.category?.message}
-                        options={[
-                          { value: "option1", label: "Option 1" },
-                          { value: "option2", label: "Option 2" },
-                        ]}
+                        options={categories.map((category) => ({
+        value: category.id,
+        label: category.user_category,
+      }))}
                       />
                     )}
                   />

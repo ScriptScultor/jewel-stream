@@ -13,13 +13,14 @@ import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import Product from "./Pages/Products/Product";
 import { fetchUserData } from "./store/auth/user";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    //dispatch(fetchUserData());
   });
 
   return (
@@ -47,6 +48,9 @@ function App() {
           </Route>
           <Route exact path="/products/:mainCategory/:subCategory">
             <Products />
+          </Route>
+          <Route exact path="/product/:id">
+            <Product />
           </Route>
           <Route exact path="/products">
             <Products />
