@@ -9,7 +9,6 @@ import { makeApiRequest } from "../../data/axios";
 const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
   let { mainCategory, subCategory } = useParams();
-console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',mainCategory,subCategory)
   
   let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=8`;
   if (mainCategory && subCategory) {
@@ -37,7 +36,7 @@ console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',mainCategory,subCat
         {products.map((product,index) => {
           return (
             <>
-              <Product product={product} key = {index} />
+              <Product product={product} mainCategory={mainCategory} subCategory={subCategory}  key = {index} />
             </>
           );
         })}

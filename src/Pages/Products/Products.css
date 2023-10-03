@@ -122,22 +122,4 @@
 }
 
 
-.floating-filter-button {
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  z-index: 1000;
-}
 
-/* CSS for the button when hovered */
-.floating-filter-button:hover {
-  background-color: #0056b3;
-}

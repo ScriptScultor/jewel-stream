@@ -1,0 +1,115 @@
+/* ProductDetails.css */
+
+/* Container for the entire product details page */
+.product-details-container {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 1.2rem;
+}
+
+/* Left side containing the big image and thumbnail gallery */
+.productdetails-image-container {
+    flex: 1;
+    max-width: 100%; /* Adjust as needed */
+    /* padding-right: 20px; */
+    position: relative;
+}
+
+.big-image {
+    width: 100%;
+    max-height: 40rem; /* Adjust the max height as needed */
+    object-fit: cover;
+    border: 20px solid #ddd;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail-gallery {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.thumbnail {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.thumbnail.active {
+    border-color: #007bff; /* Highlight the active thumbnail */
+}
+
+/* Right side containing product details and order button */
+.product-info {
+    flex: 1;
+    /* max-width: 40%; Adjust as needed */
+    padding-left: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #01060c;
+    font-size: 24px;
+    margin-top: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+p {
+    text-align: center;
+    font-size: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+button.order-button {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+    display: inline-block;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f3bf11;
+    color: #01060c;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px; /* Add border-radius for a button effect */
+}
+
+button.order-button:hover {
+    background-color: #f0ee79;
+    color: #01060c; /* Change text color on hover */
+}
+
+/* For screens smaller than 768px (adjust breakpoint as needed) */
+@media (max-width: 768px) {
+    .product-details-container {
+        flex-direction: column; /* Change to a column layout */
+        align-items: center; /* Center align content */
+        padding: 0rem;
+        /* margin:1rem; */
+        justify-content: center;
+        margin: 0.7rem;
+    }
+
+    .product-image-container {
+        /* max-width: 100%; Remove max-width to prevent horizontal scroll */
+        padding-right: 0; /* Remove right padding */
+        margin-bottom: 20px; /* Add margin at the bottom for separation */
+    }
+
+    .product-info {
+        /* max-width: 40%; Adjust as needed */
+        padding: 0.2rem; /* Remove left padding */
+        margin: 0.4rem;
+        color: #e0e40d;
+    }
+}
+

@@ -16,7 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "./store/auth/LoginAction";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Product from "./Pages/Products/Product";
-
+import { fetchUserData } from "./store/auth/user";
+import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 function App() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth);
@@ -51,8 +52,8 @@ function App() {
           <Route exact path="/products/:mainCategory/:subCategory">
             <Products />
           </Route>
-          <Route exact path="/product/:id">
-            <Product />
+          <Route exact path="/products/:mainCategory/:subCategory/:id">
+            <ProductDetails />
           </Route>
           <Route exact path="/products">
             <Products />
