@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { validationFunctions } from "../../Utils/validations";
@@ -6,7 +6,7 @@ import ValidatedSelect from "../../components/Input/Dropdown";
 import ValidatedTextField from "../../components/Input/TextField";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../store/auth/register";
+import { registerUser } from "../../store/auth/LoginAction";
 import AuthButton from "../../components/Button/AuthButton";
 import { makeApiRequest } from "../../data/axios";
 import logConsole from "../../Utils/logger";
@@ -25,7 +25,7 @@ const Registration = () => {
   });
   const [categories, setCategories] = useState([]);
 
-  const registerData = useSelector((state) => state.register);
+  const isLoading = useSelector((state) => state.auth.isLoading);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -34,13 +34,13 @@ const Registration = () => {
       const res = await dispatch(registerUser(data));
 
       if (res.success) {
-        history.push("/");
+        history.history("/");
       }
     } catch (error) {
       history.push("/error");
     }
   };
-  let categoriesUrl = '/jewelstream/api/v1/getusercategories'
+  let categoriesUrl = "/jewelstream/api/v1/getusercategories";
   useEffect(() => {
     makeApiRequest({
       url: categoriesUrl, // Replace with your API endpoint for categories
@@ -52,7 +52,6 @@ const Registration = () => {
         logConsole(err);
       });
   }, [categoriesUrl]);
-  
 
   return (
     <div>
@@ -182,9 +181,9 @@ const Registration = () => {
                         isError={Boolean(formState.errors.category)}
                         errorText={formState.errors.category?.message}
                         options={categories.map((category) => ({
-        value: category.id,
-        label: category.user_category,
-      }))}
+                          value: category.id,
+                          label: category.user_category,
+                        }))}
                       />
                     )}
                   />
@@ -213,10 +212,7 @@ const Registration = () => {
                     )}
                   />
                   <div className="d-grid mt-4">
-                    <AuthButton
-                      title="REGISTRATION"
-                      isLoading={registerData.isLoading}
-                    />
+                    <AuthButton title="REGISTRATION" isLoading={isLoading} />
                     <hr className="my-4" />
                     <NavLink style={{ textDecoration: "none" }} to="/login">
                       <Button variant="text">

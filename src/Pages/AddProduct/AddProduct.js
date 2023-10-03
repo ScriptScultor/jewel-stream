@@ -11,7 +11,7 @@ const AddProduct = () => {
     console.log(rating);
   };
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
     //  if user data is valid then

@@ -5,7 +5,7 @@ import Product from "./Product";
 import "./Products.css";
 import { useParams } from "react-router-dom";
 import { makeApiRequest } from "../../data/axios";
-import logConsole from "../../Utils/logger";
+
 const Products = ({ quantity }) => {
   const [products, setProducts] = useState([]);
   let { mainCategory, subCategory } = useParams();
@@ -24,9 +24,7 @@ console.log('KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK',mainCategory,subCat
         // data.data.pop() // product limit poped here
         setProducts(data.data.result);
       })
-      .catch((err) => {
-        logConsole(err);
-      });
+      .catch((err) => {});
   }, [productsUrl, mainCategory, subCategory]);
   return (
     <Container className="my-md-5 my-3 text-center">

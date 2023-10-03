@@ -12,16 +12,18 @@ import Registration from "./Pages/Registration/Registration";
 import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "./store/auth/LoginAction";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Product from "./Pages/Products/Product";
-import { fetchUserData } from "./store/auth/user";
 
 function App() {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth);
 
   useEffect(() => {
-    //dispatch(fetchUserData());
-  });
+    dispatch(fetchUserData());
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -41,10 +43,10 @@ function App() {
             <Footer />
           </Route>
           <Route exact path="/login">
-            <Login />
+            {userData.isAuthenticated ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route exact path="/registration">
-            <Registration />
+            {userData.isAuthenticated ? <Redirect to="/" /> : <Registration />}
           </Route>
           <Route exact path="/products/:mainCategory/:subCategory">
             <Products />

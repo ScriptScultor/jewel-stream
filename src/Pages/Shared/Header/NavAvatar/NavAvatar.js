@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -13,11 +13,22 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import { logoutUser } from "../../../../store/auth/LoginAction";
+
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
 
 function NavbarAvatar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const userData = useSelector((state) => state.user);
+  const userData = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const handleClick = (event) => {
@@ -44,7 +55,11 @@ function NavbarAvatar() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}></Avatar>
+            <Avatar sx={{ width: 32, height: 32, bgcolor: getRandomColor() }}>
+              {userData.user
+                ? userData.user.data.user_name.charAt(0).toUpperCase()
+                : null}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -102,7 +117,13 @@ function NavbarAvatar() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            dispatch(logoutUser());
+            history.push("/login");
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

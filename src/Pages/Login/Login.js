@@ -6,7 +6,7 @@ import ValidatedTextField from "../../components/Input/TextField";
 import { validationFunctions } from "../../Utils/validations";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loginUser } from "../../store/auth/login";
+import { loginUser } from "../../store/auth/LoginAction";
 import AuthButton from "../../components/Button/AuthButton";
 
 const Login = () => {
