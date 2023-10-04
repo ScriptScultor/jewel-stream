@@ -54,16 +54,18 @@
 }
 
 h1 {
+    /* margin:1rem; */
+    padding: 1rem;
     text-align: center;
     color: #01060c;
-    font-size: 24px;
+    font-size: 2rem;
     margin-top: 0;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 p {
     text-align: center;
-    font-size: 16px;
+    font-size: 1.2rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
 }
@@ -109,7 +111,9 @@ button.order-button:hover {
         /* max-width: 40%; Adjust as needed */
         padding: 0.2rem; /* Remove left padding */
         margin: 0.4rem;
-        color: #e0e40d;
+        color: #01060c;
     }
 }
+
+
 

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "./Products.css";
 import { useParams } from "react-router-dom";
 
-const Product = ({ product, mainCategory, subCategory }) => {
+const Product = ({ product, mainCategory, subCategory }) => { 
   const {id} = useParams();
   return (
     <Col xs={12} md={4}>

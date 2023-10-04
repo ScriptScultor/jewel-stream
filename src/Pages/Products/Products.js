@@ -5,14 +5,19 @@ import Product from "./Product";
 import "./Products.css";
 import { useParams } from "react-router-dom";
 import { makeApiRequest } from "../../data/axios";
-
-const Products = ({ quantity }) => {
+import ProductCarousel from "../ProductDetails/ProductCarousel";
+const Products = ({ quantity, moreProducts }) => {
   const [products, setProducts] = useState([]);
   let { mainCategory, subCategory } = useParams();
-  
-  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=8`;
+  if(!quantity){
+    quantity = 10;
+  }
+  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=${quantity}`;
   if (mainCategory && subCategory) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
+  }
+  if (mainCategory && subCategory && moreProducts) {
+    productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=${moreProducts}`;
   }
   // fetch all products from database
   useEffect(() => {
@@ -27,20 +32,23 @@ const Products = ({ quantity }) => {
   }, [productsUrl, mainCategory, subCategory]);
   return (
     <Container className="my-md-5 my-3 text-center">
-      <p className="products-page-title">{mainCategory ? mainCategory : 'All'} {subCategory ? subCategory : 'Products'}</p>
-      {/* <img className="image-link" src="https://i.ibb.co/jrcL1wV/divider1.png" alt="" /> */}
-      <hr className="divider" />
+      <p className="products-page-title">{moreProducts ? 'You also may like !' : ''}{mainCategory && !moreProducts ? mainCategory : moreProducts ? '':'All'} {subCategory && !moreProducts ? subCategory : moreProducts ? '' : 'Products'}</p>
+      <img className="image-link" src="https://i.ibb.co/jrcL1wV/divider1.png" alt="" />
+      {/* <hr className="divider" /> */}
       <br />
       <br />
-      <Row className="g-3 g-sm-5">
+      {moreProducts ?
+      (<ProductCarousel products={products} mainCategory={mainCategory} subCategory={subCategory}/>) :
+       (<Row className="g-3 g-sm-5">
         {products.map((product,index) => {
           return (
             <>
-              <Product product={product} mainCategory={mainCategory} subCategory={subCategory}  key = {index} />
+              <Product product={product} mainCategory={mainCategory ? mainCategory : product.product_category} subCategory={subCategory ? subCategory : product.product_name}  key = {index} />
             </>
           );
         })}
-      </Row>
+      </Row>)}
+      
     </Container>
   );
 };

@@ -16,14 +16,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "./store/auth/LoginAction";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Product from "./Pages/Products/Product";
-import { fetchUserData } from "./store/auth/user";
+// import { fetchUserData } from "./store/auth/user";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 function App() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    // dispatch(fetchUserData());
   }, [dispatch]);
 
   return (
