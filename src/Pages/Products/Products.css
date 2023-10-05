@@ -1,20 +1,257 @@
+:root {
+  font-size: 16px; /* Set 1rem = 16px as a root font size */
+}
+.image-link {
+  color: blue;
+}
+.products-page-title {
+  font-size: 2rem;
+  font-family: "Lucida Sans Unicode", "Lucida Grande";
+  /* font-weight: 700; */
+  font-style: italic;
+  background-image: linear-gradient(
+      217deg,
+      rgba(255, 0, 0, 0.8),
+      rgba(255, 0, 0, 0) 70.71%
+    ),
+    linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),
+    linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-color: black;
+  color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+.divider {
+  border: none;
+  width: 100%;
+  height: 1rem; /* Adjust the thickness of the line */
+  background: repeating-linear-gradient(
+    -45deg,
+    /* Adjust the angle to control the spiral direction */ transparent,
+    transparent 0px,
+    /* Adjust the spiral gap width */ gold 5px,
+    /* Gold color */ gold 9px /* Adjust the width of the gold spiral segment */
+  );
+  margin: 1rem 0; /* Adjust the margin as needed */
+}
+
 .products-title {
-  font-size: 36px;
+  font-size: 1rem; /* Equivalent to 16px */
   font-family: "Lucida Sans Unicode", "Lucida Grande";
   font-weight: 700;
+  font-style: italic;
 }
 .product-title {
-  font-size: 24px;
+  padding: 0;
+  margin: 0;
+  font-size: 1.5rem; /* Equivalent to 14px (14px / 16px = 0.875rem) */
   font-weight: 600;
+  letter-spacing: 0.15rem;
 }
 .product-vendor {
-  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem; /* Equivalent to 11px (11px / 16px = 0.6875rem) */
   font-weight: 600;
   text-transform: uppercase;
   color: grey;
 }
 .product-price {
-  font-size: 32px;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9375rem; /* Equivalent to 15px (15px / 16px = 0.9375rem) */
   color: rgb(0, 167, 83);
+  font-weight: 500;
+  /* padding: 0.00625rem; */ /* Equivalent to 0.1px (0.1px / 16px = 0.00625rem) */
+  margin: 0.00625rem; /* Equivalent to 0.1px (0.1px / 16px = 0.00625rem) */
+}
+
+a.order-link {
+  padding: 0;
+  margin: 0;
+  font-size: 1rem; /* Equivalent to 16px */
+  color: rgb(232, 156, 156);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Default styling for larger screens */
+.product-card {
+  position: relative;
+  width: 100%;
+}
+
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.product-image {
+  width: 100%;
+  height: auto;
+  transition: transform 0.8s;
+}
+
+.product-details-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-style: solid;
+  border-width: 0.2125rem; /* Equivalent to 9px (9px / 16px = 0.5625rem) */
+  border-color: rgb(221, 194, 194);
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1); /* Zoom in effect on hover */
+}
+
+.product-card:hover .product-details-overlay {
+  opacity: 1; /* Show overlay on hover */
+}
+
+@media (max-width: 768px) {
+  .products-page-title {
+    font-size: 1.1rem;
+  }
+  .divider {
+    border: none;
+    width: 100%;
+    height: 0.5rem;
+  }
+}
+
+/* New product card  */
+.product-card {
+  width: 100%;
+  position: relative;
+  box-shadow: 0 2px 7px #dfdfdf;
+  margin: 20px auto;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.badge {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  text-transform: uppercase;
+  font-size: 13px;
   font-weight: 700;
+  background: red;
+  color: #fff;
+  padding: 3px 10px;
+}
+
+.product-tumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background: white;
+  padding: 20px;
+}
+
+.product-tumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-details {
+  padding: 10px 20px 30px 20px;
+  text-align: start;
+}
+
+.product-catagory {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.product-details h4 {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #363636;
+  text-decoration: none;
+  transition: 0.3s;
+  width: 100%; /* Set the width of the container to control where the text should truncate */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Display an ellipsis when text overflows */
+}
+
+.product-details h4 a:hover {
+  color: #fbb72c;
+}
+
+.product-details p {
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 18px;
+  color: #999;
+}
+
+.product-bottom-details {
+  overflow: hidden;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.product-bottom-details div {
+  float: left;
+  width: 50%;
+}
+
+.product-price {
+  font-size: 18px;
+  color: #fbb72c;
+  font-weight: 600;
+}
+
+.product-price small {
+  font-size: 80%;
+  font-weight: 400;
+  text-decoration: line-through;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.product-links {
+  text-align: right;
+}
+
+.product-links a {
+  display: inline-block;
+  margin-left: 5px;
+  color: #e1e1e1;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.product-links a:hover {
+  color: #fbb72c;
 }

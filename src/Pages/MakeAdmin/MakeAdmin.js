@@ -14,20 +14,6 @@ const MakeAdmin = () => {
   // make admin function
   const handleAdminSubmit = (e) => {
     const user = { email };
-    fetch("https://jewelry-niche-server.vercel.app/users/admin", {
-      method: "PUT",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.modifiedCount) {
-          console.log(data);
-          setSuccess(true);
-        }
-      });
 
     e.preventDefault();
   };
@@ -37,16 +23,16 @@ const MakeAdmin = () => {
       <form onSubmit={handleAdminSubmit}>
         <TextField
           sx={{ width: "50%" }}
-          label='Email'
-          type='email'
+          label="Email"
+          type="email"
           onBlur={handleOnBlur}
-          variant='standard'
+          variant="standard"
         />
-        <Button type='submit' variant='contained'>
+        <Button type="submit" variant="contained">
           Make Admin
         </Button>
       </form>
-      {success && <Alert severity='success'>Made Admin successfully!</Alert>}
+      {success && <Alert severity="success">Made Admin successfully!</Alert>}
     </div>
   );
 };

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Header.css";
 import { Box } from "@mui/material";
 import NavbarAvatar from "./NavAvatar/NavAvatar";
 import NavbarLink from "./NavbarLink/NavbarLink";
-
 
 let routeList = [
   {
@@ -29,17 +28,12 @@ let routeList = [
     path: "/product",
   },
 ];
-const Token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJjYXRlZ29yeW5hbWUiOiJzaG9wIG93bmVyIiwiaWF0IjoxNjk1ODgxODA1fQ.Si1-xq0zBVgpOYAOSC9Z04G8Unc8BAKAEbopFlEW1fY'
 const Header = () => {
   // import user and logout from useAuth
   const [category, setCategory] = useState([]);
   useEffect(() => {
     fetch("http://localhost:8080/jewelstream/api/v1/getmainandsubcategories", {
       method: "GET",
-      headers: {
-        'Authorization': `Bearer ${Token}`,
-        'Content-Type': 'application/json',
-      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -58,11 +52,17 @@ const Header = () => {
               alt=""
             />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
-              {routeList.map((route) => {
-                return <NavbarLink title={route.main_category} subcategory ={route.sub_categories} />;
+              {routeList.map((route,index) => {
+                return (
+                  <NavbarLink
+                  key={index}
+                    title={route.main_category}
+                    subcategory={route.sub_categories}
+                  />
+                );
               })}
               <Box sx={{ mr: "auto" }} />
               <NavbarAvatar />

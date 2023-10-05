@@ -2,7 +2,10 @@ import axios from "axios";
 
 // Create an Axios instance
 const axiosInstance = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com", // Replace with your API's base URL
+  baseURL: "http://localhost:8080", // Replace with your API's base URL
+  validateStatus: (status) => {
+    return status >= 200 && status < 500; // Handle 400 errors in the catch block
+  },
 });
 
 // Utility function to make an API request with optional authentication token
@@ -34,11 +37,22 @@ const makeApiRequest = async ({ method, url, data = {} }) => {
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     } else {
-      // If the status code indicates an error, throw an error with the response data
-      throw new Error(`HTTP Error: ${response.status}`);
+      let message = `HTTP Error: ${response.status}`;
+      if (response.data) {
+        if (typeof response.data.error === "string") {
+          // If response.data.error is a string, use it as the error message
+          message = response.data.error;
+        } else if (typeof response.data.error === "object") {
+          // If response.data.error is an object, stringify it and use it as the error message
+          message = JSON.stringify(response.data.error) || "OOPS! Something went wrong.";
+        }
+      }
+
+      // Throw an error with a custom message
+      throw new Error(message);
     }
   } catch (error) {
-    // Handle errors
+    // Handle errors, including HTTP errors
     throw error;
   }
 };

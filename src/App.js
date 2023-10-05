@@ -11,8 +11,13 @@ import Products from "./Pages/Products/Products";
 import Registration from "./Pages/Registration/Registration";
 import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 
 function App() {
+  const userData = useSelector((state) => state.auth);
+
   return (
     <div className="App">
       <Router>
@@ -31,10 +36,16 @@ function App() {
             <Footer />
           </Route>
           <Route exact path="/login">
-            <Login />
+            {userData.isAuthenticated ? <Redirect to="/" /> : <Login />}
           </Route>
           <Route exact path="/registration">
-            <Registration />
+            {userData.isAuthenticated ? <Redirect to="/" /> : <Registration />}
+          </Route>
+          <Route exact path="/products/:mainCategory/:subCategory">
+            <Products />
+          </Route>
+          <Route exact path="/products/:mainCategory/:subCategory/:id">
+            <ProductDetails />
           </Route>
           <Route exact path="/products">
             <Products />
