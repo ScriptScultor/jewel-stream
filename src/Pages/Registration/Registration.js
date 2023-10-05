@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { validationFunctions } from "../../Utils/validations";
@@ -8,24 +8,15 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../store/auth/LoginAction";
 import AuthButton from "../../components/Button/AuthButton";
-import { makeApiRequest } from "../../data/axios";
-import logConsole from "../../Utils/logger";
-const defaultValues = {
-  fullName: "Derick",
-  email: "test@gmail.com",
-  phoneNumber: "9972990638",
-  password: "Test@123",
-  category: "Option 1",
-  gstNumber: "123456789012345",
-};
+import { fetchUserCategories } from "../../store/auth/UserCategory";
+import { Alert, CircularProgress } from "@mui/material";
 
 const Registration = () => {
-  const { control, handleSubmit, formState, clearErrors } = useForm({
-    defaultValues,
-  });
-  const [categories, setCategories] = useState([]);
+  const { control, handleSubmit, formState, clearErrors, getValues } =
+    useForm();
 
-  const isLoading = useSelector((state) => state.auth.isLoading);
+  const authData = useSelector((state) => state.auth);
+  const categoryData = useSelector((state) => state.userCategory);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -34,24 +25,14 @@ const Registration = () => {
       const res = await dispatch(registerUser(data));
 
       if (res.success) {
-        history.history("/");
+        history.replace("/");
       }
     } catch (error) {
-      history.push("/error");
+      console.log(error);
     }
   };
-  let categoriesUrl = "/jewelstream/api/v1/getusercategories";
-  useEffect(() => {
-    makeApiRequest({
-      url: categoriesUrl, // Replace with your API endpoint for categories
-    })
-      .then((data) => {
-        setCategories(data.data); // Assuming the response data is an array of objects
-      })
-      .catch((err) => {
-        logConsole(err);
-      });
-  }, [categoriesUrl]);
+
+  useEffect(() => dispatch(fetchUserCategories()), [dispatch]);
 
   return (
     <div>
@@ -68,159 +49,178 @@ const Registration = () => {
                   className="img-fluid"
                   alt=""
                 />
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <Controller
-                    name="fullName"
-                    control={control}
-                    rules={{
-                      required: "Full name is required",
-                      validate: (value) => {
-                        return (
-                          validationFunctions.validateFullName(value) || true
-                        );
-                      },
-                    }}
-                    render={({ field }) => (
-                      <ValidatedTextField
-                        label="Full Name"
-                        value={field.value}
-                        isError={Boolean(formState.errors.fullName)}
-                        errorText={formState.errors.fullName?.message}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("fullName");
+                <div className="mb-2">
+                  {authData.error != null ? (
+                    <Alert severity="error">{authData.error}</Alert>
+                  ) : null}
+                </div>
+                {categoryData.isLoading === true ? (
+                  <CircularProgress />
+                ) : (
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                      name="fullName"
+                      control={control}
+                      rules={{
+                        required: "Full name is required",
+                        validate: (value) => {
+                          return (
+                            validationFunctions.validateFullName(value) || true
+                          );
+                        },
+                      }}
+                      render={({ field }) => (
+                        <ValidatedTextField
+                          label="Full Name"
+                          value={field.value}
+                          isError={Boolean(formState.errors.fullName)}
+                          errorText={formState.errors.fullName?.message}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            clearErrors("fullName");
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="email"
+                      control={control}
+                      rules={{
+                        required: "Email is required",
+                        validate: (value) => {
+                          return (
+                            validationFunctions.validateEmail(value) || true
+                          );
+                        },
+                      }}
+                      render={({ field }) => (
+                        <ValidatedTextField
+                          label="Email"
+                          value={field.value}
+                          isError={Boolean(formState.errors.email)}
+                          errorText={formState.errors.email?.message}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            clearErrors("email");
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="phoneNumber"
+                      control={control}
+                      rules={{
+                        required: "Phone number is required",
+                        validate: (value) => {
+                          return (
+                            validationFunctions.validatePhoneNumber(value) ||
+                            true
+                          );
+                        },
+                      }}
+                      render={({ field }) => (
+                        <ValidatedTextField
+                          label="Phone Number"
+                          value={field.value}
+                          isError={Boolean(formState.errors.phoneNumber)}
+                          errorText={formState.errors.phoneNumber?.message}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            clearErrors("phoneNumber");
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="password"
+                      control={control}
+                      rules={{
+                        required: "Password is required",
+                        validate: (value) => {
+                          return (
+                            validationFunctions.validatePassword(value) || true
+                          );
+                        },
+                      }}
+                      render={({ field }) => (
+                        <ValidatedTextField
+                          label="Password"
+                          type="password"
+                          value={field.value}
+                          isError={Boolean(formState.errors.password)}
+                          errorText={formState.errors.password?.message}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            clearErrors("password");
+                          }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="category"
+                      control={control}
+                      rules={{
+                        required: "Category is required",
+                      }}
+                      render={({ field }) => (
+                        <ValidatedSelect
+                          label="Category"
+                          value={field.value}
+                          onChange={(value) => {
+                            field.onChange(value);
+                            clearErrors("category");
+                          }}
+                          isError={Boolean(formState.errors.category)}
+                          errorText={formState.errors.category?.message}
+                          options={categoryData.data.map((category) => ({
+                            value: category.id,
+                            label: category.user_category,
+                          }))}
+                        />
+                      )}
+                    />
+                    {[1, 2].some((item) => getValues().category === item) ? (
+                      <Controller
+                        name="gstNumber"
+                        control={control}
+                        rules={{
+                          required: "GST number is required",
+                          validate: (value) => {
+                            return (
+                              validationFunctions.validateGstNumber(value) ||
+                              true
+                            );
+                          },
                         }}
+                        render={({ field }) => (
+                          <ValidatedTextField
+                            label="GST Number"
+                            value={field.value}
+                            isError={Boolean(formState.errors.gstNumber)}
+                            errorText={formState.errors.gstNumber?.message}
+                            onChange={(value) => {
+                              field.onChange(value);
+                              clearErrors("gstNumber");
+                            }}
+                          />
+                        )}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="email"
-                    control={control}
-                    rules={{
-                      required: "Email is required",
-                      validate: (value) => {
-                        return validationFunctions.validateEmail(value) || true;
-                      },
-                    }}
-                    render={({ field }) => (
-                      <ValidatedTextField
-                        label="Email"
-                        value={field.value}
-                        isError={Boolean(formState.errors.email)}
-                        errorText={formState.errors.email?.message}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("email");
-                        }}
+                    ) : null}
+
+                    <div className="d-grid mt-4">
+                      <AuthButton
+                        title="REGISTRATION"
+                        isLoading={authData.isLoading}
                       />
-                    )}
-                  />
-                  <Controller
-                    name="phoneNumber"
-                    control={control}
-                    rules={{
-                      required: "Phone number is required",
-                      validate: (value) => {
-                        return (
-                          validationFunctions.validatePhoneNumber(value) || true
-                        );
-                      },
-                    }}
-                    render={({ field }) => (
-                      <ValidatedTextField
-                        label="Phone Number"
-                        value={field.value}
-                        isError={Boolean(formState.errors.phoneNumber)}
-                        errorText={formState.errors.phoneNumber?.message}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("phoneNumber");
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="password"
-                    control={control}
-                    rules={{
-                      required: "Password is required",
-                      validate: (value) => {
-                        return (
-                          validationFunctions.validatePassword(value) || true
-                        );
-                      },
-                    }}
-                    render={({ field }) => (
-                      <ValidatedTextField
-                        label="Password"
-                        type="password"
-                        value={field.value}
-                        isError={Boolean(formState.errors.password)}
-                        errorText={formState.errors.password?.message}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("password");
-                        }}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="category"
-                    control={control}
-                    rules={{
-                      required: "Category is required",
-                    }}
-                    render={({ field }) => (
-                      <ValidatedSelect
-                        label="Category"
-                        value={field.value}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("category");
-                        }}
-                        isError={Boolean(formState.errors.category)}
-                        errorText={formState.errors.category?.message}
-                        options={categories.map((category) => ({
-                          value: category.id,
-                          label: category.user_category,
-                        }))}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="gstNumber"
-                    control={control}
-                    rules={{
-                      required: "GST number is required",
-                      validate: (value) => {
-                        return (
-                          validationFunctions.validateGstNumber(value) || true
-                        );
-                      },
-                    }}
-                    render={({ field }) => (
-                      <ValidatedTextField
-                        label="GST Number"
-                        value={field.value}
-                        isError={Boolean(formState.errors.gstNumber)}
-                        errorText={formState.errors.gstNumber?.message}
-                        onChange={(value) => {
-                          field.onChange(value);
-                          clearErrors("gstNumber");
-                        }}
-                      />
-                    )}
-                  />
-                  <div className="d-grid mt-4">
-                    <AuthButton title="REGISTRATION" isLoading={isLoading} />
-                    <hr className="my-4" />
-                    <NavLink style={{ textDecoration: "none" }} to="/login">
-                      <Button variant="text">
-                        Already Registered? Please Login
-                      </Button>
-                    </NavLink>
-                  </div>
-                </form>
+                      <hr className="my-4" />
+                      <NavLink style={{ textDecoration: "none" }} to="/login">
+                        <Button variant="text">
+                          Already Registered? Please Login
+                        </Button>
+                      </NavLink>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           </div>

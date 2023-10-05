@@ -9,7 +9,7 @@ import ProductCarousel from "../ProductDetails/ProductCarousel";
 const Products = ({ quantity, moreProducts }) => {
   const [products, setProducts] = useState([]);
   let { mainCategory, subCategory } = useParams();
-  if(!quantity){
+  if (!quantity) {
     quantity = 10;
   }
   let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=${quantity}`;
@@ -32,23 +32,51 @@ const Products = ({ quantity, moreProducts }) => {
   }, [productsUrl, mainCategory, subCategory]);
   return (
     <Container className="my-md-5 my-3 text-center">
-      <p className="products-page-title">{moreProducts ? 'You also may like !' : ''}{mainCategory && !moreProducts ? mainCategory : moreProducts ? '':'All'} {subCategory && !moreProducts ? subCategory : moreProducts ? '' : 'Products'}</p>
-      <img className="image-link" src="https://i.ibb.co/jrcL1wV/divider1.png" alt="" />
+      <p className="products-page-title">
+        {moreProducts ? "You also may like !" : ""}
+        {mainCategory && !moreProducts
+          ? mainCategory
+          : moreProducts
+          ? ""
+          : "All"}{" "}
+        {subCategory && !moreProducts
+          ? subCategory
+          : moreProducts
+          ? ""
+          : "Products"}
+      </p>
+      <img
+        className="image-link"
+        src="https://i.ibb.co/jrcL1wV/divider1.png"
+        alt=""
+      />
       {/* <hr className="divider" /> */}
       <br />
       <br />
-      {moreProducts ?
-      (<ProductCarousel products={products} mainCategory={mainCategory} subCategory={subCategory}/>) :
-       (<Row className="g-3 g-sm-5">
-        {products.map((product,index) => {
-          return (
-            <>
-              <Product product={product} mainCategory={mainCategory ? mainCategory : product.product_category} subCategory={subCategory ? subCategory : product.product_name}  key = {index} />
-            </>
-          );
-        })}
-      </Row>)}
-      
+      {moreProducts ? (
+        <ProductCarousel
+          products={products}
+          mainCategory={mainCategory}
+          subCategory={subCategory}
+        />
+      ) : (
+        <Row className="g-5 g-md-4 g-sm-2">
+          {products.map((product, index) => {
+            return (
+              <>
+                <Product
+                  product={product}
+                  mainCategory={
+                    mainCategory ? mainCategory : product.product_category
+                  }
+                  subCategory={subCategory ? subCategory : product.product_name}
+                  key={index}
+                />
+              </>
+            );
+          })}
+        </Row>
+      )}
     </Container>
   );
 };

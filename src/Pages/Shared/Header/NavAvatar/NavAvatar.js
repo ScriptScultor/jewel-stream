@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { logoutUser } from "../../../../store/auth/LoginAction";
+import { fetchUserData, logoutUser } from "../../../../store/auth/LoginAction";
 
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
@@ -30,6 +30,10 @@ function NavbarAvatar() {
   const userData = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  }, [dispatch]);
 
   const handleClick = (event) => {
     if (userData.user == null) {

@@ -20,8 +20,8 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = null;
     },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
+    setLoading: (state) => {
+      state.isLoading = true;
       state.error = null;
     },
     setError: (state, action) => {
@@ -42,7 +42,7 @@ export default authSlice.reducer;
 // Redux Thunk function to handle asynchronous registration
 export const registerUser = (userData) => async (dispatch) => {
   try {
-    dispatch(setLoading(true)); // Set loading state to true
+    dispatch(setLoading()); // Set loading state to true
     const response = await makeApiRequest({
       url: "/jewelstream/api/v1/registerUser",
       method: HttpMethod.POST,
@@ -50,9 +50,10 @@ export const registerUser = (userData) => async (dispatch) => {
         userName: userData.fullName,
         userEmail: userData.email,
         userMobileNumber: userData.phoneNumber,
-        userCategory: 1,
+        userCategory: userData.category,
         userEncryptedPassword: userData.password,
-        userGstNum: userData.gstNumber,
+        userGstNum:
+          userData.gstNumber === undefined ? null : userData.gstNumber,
       },
     });
     localStorage.setItem("authToken", response.data);
@@ -62,16 +63,15 @@ export const registerUser = (userData) => async (dispatch) => {
       success: true,
     };
   } catch (error) {
+    console.log(error);
     dispatch(setError({ error: error.message })); // Update error in the state
     throw error;
-  } finally {
-    dispatch(setLoading(false)); // Set loading state to false regardless of success or failure
   }
 };
 
 // Example async action to simulate user login
 export const loginUser = (credentials) => async (dispatch) => {
-  dispatch(setLoading(true)); // Set loading state
+  dispatch(setLoading()); // Set loading state
   try {
     const response = await makeApiRequest({
       url: "/jewelstream/api/v1/loginUser",
@@ -90,8 +90,6 @@ export const loginUser = (credentials) => async (dispatch) => {
     console.log(error);
     // Handle login errors and set error state
     dispatch(setError(error.message));
-  } finally {
-    dispatch(setLoading(false));
   }
 };
 

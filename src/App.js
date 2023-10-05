@@ -11,20 +11,12 @@ import Products from "./Pages/Products/Products";
 import Registration from "./Pages/Registration/Registration";
 import Footer from "./Pages/Shared/Footer/Footer";
 import Header from "./Pages/Shared/Header/Header";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "./store/auth/LoginAction";
+import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-import Product from "./Pages/Products/Product";
-// import { fetchUserData } from "./store/auth/user";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
-function App() {
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    // dispatch(fetchUserData());
-  }, [dispatch]);
+function App() {
+  const userData = useSelector((state) => state.auth);
 
   return (
     <div className="App">
