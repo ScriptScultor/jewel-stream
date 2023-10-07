@@ -64,7 +64,7 @@ export const registerUser = (userData) => async (dispatch) => {
     };
   } catch (error) {
     console.log(error);
-    dispatch(setError({ error: error.message })); // Update error in the state
+    dispatch(setError(error.message)); // Update error in the state
     throw error;
   }
 };
@@ -94,20 +94,29 @@ export const loginUser = (credentials) => async (dispatch) => {
 };
 
 // Example async action to fetch user data using a token
-export const fetchUserData = () => async (dispatch) => {
+export const fetchUserData = () => async (dispatch, getState) => {
   try {
+    let authToken = localStorage.getItem("authToken");
+    if (authToken == null) {
+      return;
+    }
+
+    if (getState().auth.user != null) {
+      return;
+    }
+
+    dispatch(setLoading());
     const response = await makeApiRequest({
       url: "/jewelstream/api/v1/userdetails",
     });
 
-    dispatch(setUser(response)); // Update user data in the state
+    dispatch(setUser({ ...response, color: getRandomColor() })); // Update user data in the state
     // Dispatch other actions if needed, indicating success
     return {
       success: true,
     };
   } catch (error) {
     // Handle errors and set error state
-    dispatch(setError(error.message));
     throw error;
   }
 };
@@ -124,4 +133,13 @@ export const logoutUser = () => async (dispatch) => {
     // Handle any errors during logout, if necessary
     console.error("Error during logout:", error);
   }
+};
+
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 };

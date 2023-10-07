@@ -27,9 +27,7 @@ const Registration = () => {
       if (res.success) {
         history.replace("/");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => dispatch(fetchUserCategories()), [dispatch]);

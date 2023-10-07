@@ -1,121 +1,113 @@
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout";
+import React, { useState } from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import RateReviewIcon from "@mui/icons-material/RateReview";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import Button from "react-bootstrap/Button";
-import { Route, Switch, useRouteMatch } from "react-router";
-import { Link } from "react-router-dom";
-import AddProduct from "../AddProduct/AddProduct";
-import AddReview from "../AddReview/AddReview";
-import AllOrders from "../AllOrders/AllOrders";
-import MakeAdmin from "../MakeAdmin/MakeAdmin";
-import ManageProducts from "../ManageProducts/ManageProducts";
-import MyOrders from "../MyOrders/MyOrders";
-import "./Dashboard.css";
+import HomeIcon from "@mui/icons-material/Home";
+import UpdateIcon from "@mui/icons-material/Update";
+import FeedbackIcon from "@mui/icons-material/Feedback";
+import SlideshowIcon from "@mui/icons-material/Slideshow";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import CategoryIcon from "@mui/icons-material/Category";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { logout } from "../../store/auth/LoginAction";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import NavAvatar from "../Shared/Header/NavAvatar/NavAvatar"; // Import the NavAvatar component
+import DashboardLayout from "../../layout/DashboardLayout";
 
 const drawerWidth = 240;
 
+const menuItems = [
+  { title: "Dashboard Home", route: "/dashboard", icon: <HomeIcon /> },
+  {
+    title: "Update Products",
+    route: "/dashboard/product-update",
+    icon: <UpdateIcon />,
+  },
+  {
+    title: "Provide Feedback",
+    route: "/dashboard/feedback",
+    icon: <FeedbackIcon />,
+  },
+  {
+    title: "Request Advertising",
+    route: "/dashboard/advertising-request",
+    icon: <SlideshowIcon />,
+  },
+  {
+    title: "View All Products",
+    route: "/dashboard/all-products",
+    icon: <ViewListIcon />,
+  },
+  {
+    title: "Add Category",
+    route: "/dashboard/category-subcategory-request",
+    icon: <CategoryIcon />,
+  },
+  {
+    title: "My Profile Settings",
+    route: "/dashboard/profile",
+    icon: <AccountCircleIcon />,
+  },
+];
+
 function Dashboard(props) {
-  // import logout and admin from use Auth
   const { window } = props;
-  let { path, url } = useRouteMatch();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const history = useHistory();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const dispatch = useDispatch();
+  // const userData = useSelector((state) => state.auth);
 
-  const [show, setShow] = React.useState(false);
-
-  const handleShow = () => setShow(true);
-
+  // Toggle the mobile navigation drawer
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  // Handle user logout
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/login");
+  };
+
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
+      <Toolbar className="p-0">
+        <img
+          className="logo"
+          src="https://drive.google.com/uc?export=view&id=1I0wdxR7U_nTXZBglx9U7BMDYAZB2ii6Y"
+          alt=""
+        />
+      </Toolbar>
       <List>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <Link to={`${url}/orders`}>
-            <ListItemText primary="Manage All Order" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <Link to={`${url}/manageproducts`}>
-            <ListItemText primary="Manage All Products" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <AdminPanelSettingsIcon />
-          </ListItemIcon>
-          <Link to={`${url}/admin`}>
-            <ListItemText primary="Make Admin" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <AddShoppingCartIcon />
-          </ListItemIcon>
-          <Link to={`${url}/addproduct`}>
-            <ListItemText primary="Add New Product" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
+        {menuItems.map((item, index) => (
+          <ListItem
+            className="text-dark"
+            component={Link}
+            to={item.route}
+            key={index}
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.title} />
+          </ListItem>
+        ))}
+        <ListItem onClick={handleLogout}>
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <CreditCardIcon />
-          </ListItemIcon>
-          <Button variant="text" onClick={handleShow}>
-            <ListItemText primary="Pay Now" />
-          </Button>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <RateReviewIcon />
-          </ListItemIcon>
-          <Link to={`${url}/addreview`}>
-            <ListItemText primary="Add Review" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <Link to={`${url}/myorder`}>
-            <ListItemText primary="My Order" />
-          </Link>
-        </ListItem>
-        <ListItem button key={1}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
+          <ListItemText primary="Logout" />
         </ListItem>
       </List>
     </div>
@@ -125,9 +117,10 @@ function Dashboard(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <>
+    <DashboardLayout>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
+        {/* App bar */}
         <AppBar
           position="fixed"
           sx={{
@@ -136,6 +129,7 @@ function Dashboard(props) {
           }}
         >
           <Toolbar>
+            {/* Mobile navigation menu button */}
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -145,19 +139,28 @@ function Dashboard(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h5" noWrap component="div">
+            {/* App title */}
+            <Typography variant="h6" noWrap component="div">
               Dashboard
             </Typography>
-            <Typography className="mx-auto" variant="h5" noWrap component="div">
+            {/* Home link */}
+            <Typography className="mx-auto" variant="h6" noWrap component="div">
               <Link to="/">
                 <HomeIcon /> Home
               </Link>
             </Typography>
+            {/* NavAvatar component for user account */}
+            <NavAvatar />
           </Toolbar>
         </AppBar>
+
+        {/* Navigation drawer */}
         <Box
-          component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          sx={{
+            width: { sm: drawerWidth },
+            flexShrink: { sm: 0 },
+            backgroundColor: "#f8f9fb",
+          }}
         >
           <Drawer
             container={container}
@@ -172,6 +175,7 @@ function Dashboard(props) {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                backgroundColor: "#f8f9fb",
               },
             }}
           >
@@ -184,6 +188,7 @@ function Dashboard(props) {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                backgroundColor: "#f8f9fb",
               },
             }}
             open
@@ -191,34 +196,22 @@ function Dashboard(props) {
             {drawer}
           </Drawer>
         </Box>
-        <Box sx={{ px: 3 }}>
+
+        {/* Main content */}
+        <Box sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Switch>
-            <Route exact path={path}>
-              <h3>This is our simple dashboard.</h3>
-            </Route>
-            <Route path={`${path}/addreview`}>
-              <AddReview />
-            </Route>
-            <Route path={`${path}/myorder`}>
-              <MyOrders />
-            </Route>
-            <Route path={`${path}/orders`}>
-              <AllOrders />
-            </Route>
-            <Route path={`${path}/manageproducts`}>
-              <ManageProducts />
-            </Route>
-            <Route path={`${path}/admin`}>
-              <MakeAdmin />
-            </Route>
-            <Route path={`${path}/addproduct`}>
-              <AddProduct />
-            </Route>
+            {/* Render routes based on menuItems */}
+            {console.log(history.location.pathname)}
+            {menuItems.map((item) => (
+              <Route key={item.route} path={item.route} exact>
+                <Typography variant="h3">{item.route}</Typography>
+              </Route>
+            ))}
           </Switch>
         </Box>
       </Box>
-    </>
+    </DashboardLayout>
   );
 }
 
