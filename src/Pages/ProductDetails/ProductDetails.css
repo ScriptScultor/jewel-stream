@@ -20,10 +20,13 @@
 
 .big-image {
     width: 100%;
-    max-height: 40rem; /* Adjust the max height as needed */
+    max-height: 40rem; /*Adjust the max height as needed*/
     object-fit: cover;
-    border: 20px solid #ddd;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+  background: white;
+  border-radius: 10px;
+    /* border: 20px solid #ddd; */
+    box-shadow: 0 2px 7px #982c2c;
 }
 
 .thumbnail-gallery {
@@ -83,6 +86,7 @@ button.order-button {
     font-size: 16px;
     margin-top: 20px;
     border-radius: 5px; /* Add border-radius for a button effect */
+    border-radius: 5px 30px 5px 30px;
 }
 
 button.order-button:hover {
@@ -115,5 +119,18 @@ button.order-button:hover {
     }
 }
 
-
+.add-to-cart-button{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+    display: inline-block;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    color: #01060c;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 5px 30px 5px 30px;
+}
 

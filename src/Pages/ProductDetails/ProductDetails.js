@@ -59,7 +59,9 @@ if (!product) {
         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip  
         mollit anim id est laborum."</p>
         <p>Price: RS {product[0].product_price}</p>
-        <button className="order-button">Order Now</button>
+        <button className="order-button">Get A Quote</button>
+        <button className="add-to-cart-button">Add To Cart</button>
+
       </div>
     </div>
     <Products moreProducts = {10} mainCategory = {mainCategory} subCategory={subCategory} />

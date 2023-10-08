@@ -255,3 +255,7 @@ a.order-link {
 .product-links a:hover {
   color: #fbb72c;
 }
+
+.edit-icon{
+  cursor: pointer;
+}

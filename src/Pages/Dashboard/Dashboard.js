@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Products from "../Products/Products";
 import {
   AppBar,
   Box,
@@ -70,7 +71,21 @@ function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const dispatch = useDispatch();
   // const userData = useSelector((state) => state.auth);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editedProduct, setEditedProduct] = useState(null);
 
+  // Function to open the modal and set the product details
+  const openEditModal = (product) => {
+    setShowEditModal(true);
+    setEditedProduct(product);
+  };
+  console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',editedProduct,showEditModal)
+
+  // Function to close the modal
+  const closeEditModal = () => {
+    setShowEditModal(false);
+    setEditedProduct(null);
+  };
   // Toggle the mobile navigation drawer
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -116,7 +131,7 @@ function Dashboard(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
+  return (<>
     <DashboardLayout>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -201,17 +216,30 @@ function Dashboard(props) {
         <Box sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Switch>
+          {showEditModal && (
+        <div className="edit-modal">
+          <h2>Edit Product</h2>
+          <form>
+            <label>Product Name</label>
+            <input type="text" value={editedProduct.product_name} />
+            <button onClick={closeEditModal}>Submit</button>
+          </form>
+        </div>
+      )}
+
             {/* Render routes based on menuItems */}
-            {console.log(history.location.pathname)}
             {menuItems.map((item) => (
               <Route key={item.route} path={item.route} exact>
                 <Typography variant="h3">{item.route}</Typography>
               </Route>
             ))}
           </Switch>
+          <Products userType = {'shop owner'} openEditModal={openEditModal} />  
         </Box>
       </Box>
     </DashboardLayout>
+    
+    </>
   );
 }
 
