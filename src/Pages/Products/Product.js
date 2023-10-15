@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Products.css";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import { useParams } from "react-router-dom";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
-const Product = ({ product, mainCategory, subCategory, userType, openEditModal }) => {
+const Product = ({
+  product,
+  mainCategory,
+  subCategory,
+  userType,
+  openEditModal,
+  isDashboardCard,
+}) => {
   const handleProductClick = () => {
     // Log the clicked product details
   };
@@ -13,11 +19,13 @@ const Product = ({ product, mainCategory, subCategory, userType, openEditModal }
     // Call the openEditModal function to open the modal with the product details
     openEditModal(product);
   };
-  
+
   return (
     <Col xs={12} md={6} lg={4} className="mt-4">
       <div className="product-card">
-      <EditIcon className="edit-icon" onClick={handleEditClick}/>  
+        {isDashboardCard && (
+          <EditIcon className="edit-icon" onClick={handleEditClick} />
+        )}
 
         <Link
           to={`/products/${mainCategory}/${subCategory}/${product.row_numbers}`}

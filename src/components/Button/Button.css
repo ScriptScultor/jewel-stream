@@ -1,3 +1,11 @@
 .auth-button {
   height: 40px;
 }
+
+button.outline-radius-button {
+  border: 1px solid #1976d2;
+  background-color: transparent;
+  color: #000;
+  border-radius: 50px;
+  height: 40px;
+}

@@ -209,12 +209,16 @@ const Registration = () => {
                       <AuthButton
                         title="REGISTRATION"
                         isLoading={authData.isLoading}
+                        onClick={handleSubmit(onSubmit)}
                       />
                       <hr className="my-4" />
                       <NavLink style={{ textDecoration: "none" }} to="/login">
                         <Button variant="text">
                           Already Registered? Please Login
                         </Button>
+                      </NavLink>
+                      <NavLink style={{ textDecoration: "none" }} to="/">
+                        <Button variant="text">Skip to home</Button>
                       </NavLink>
                     </div>
                   </form>

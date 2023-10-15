@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Products from "../Products/Products";
 import {
   AppBar,
   Box,
@@ -28,6 +27,8 @@ import { logout } from "../../store/auth/LoginAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import NavAvatar from "../Shared/Header/NavAvatar/NavAvatar"; // Import the NavAvatar component
 import DashboardLayout from "../../layout/DashboardLayout";
+import NotFound from "../NotFound/NotFound";
+import MyProducts from "../MyProducts/MyProducts";
 
 const drawerWidth = 240;
 
@@ -37,6 +38,7 @@ const menuItems = [
     title: "Update Products",
     route: "/dashboard/product-update",
     icon: <UpdateIcon />,
+    screen: <MyProducts />,
   },
   {
     title: "Provide Feedback",
@@ -73,13 +75,6 @@ function Dashboard(props) {
   // const userData = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
-
-  // Function to open the modal and set the product details
-  const openEditModal = (product) => {
-    setShowEditModal(true);
-    setEditedProduct(product);
-  };
-  console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY',editedProduct,showEditModal)
 
   // Function to close the modal
   const closeEditModal = () => {
@@ -131,114 +126,124 @@ function Dashboard(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (<>
-    <DashboardLayout>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        {/* App bar */}
-        <AppBar
-          position="fixed"
-          sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
-          }}
-        >
-          <Toolbar>
-            {/* Mobile navigation menu button */}
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
+  return (
+    <>
+      <DashboardLayout>
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          {/* App bar */}
+          <AppBar
+            position="fixed"
+            sx={{
+              width: { sm: `calc(100% - ${drawerWidth}px)` },
+              ml: { sm: `${drawerWidth}px` },
+            }}
+          >
+            <Toolbar>
+              {/* Mobile navigation menu button */}
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              {/* App title */}
+              <Typography variant="h6" noWrap component="div">
+                Dashboard
+              </Typography>
+              {/* Home link */}
+              <Typography
+                className="mx-auto"
+                variant="h6"
+                noWrap
+                component="div"
+              >
+                <Link to="/">
+                  <HomeIcon /> Home
+                </Link>
+              </Typography>
+              {/* NavAvatar component for user account */}
+              <NavAvatar />
+            </Toolbar>
+          </AppBar>
+
+          {/* Navigation drawer */}
+          <Box
+            sx={{
+              width: { sm: drawerWidth },
+              flexShrink: { sm: 0 },
+              backgroundColor: "#f8f9fb",
+            }}
+          >
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { xs: "block", sm: "none" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: drawerWidth,
+                  backgroundColor: "#f8f9fb",
+                },
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-            {/* App title */}
-            <Typography variant="h6" noWrap component="div">
-              Dashboard
-            </Typography>
-            {/* Home link */}
-            <Typography className="mx-auto" variant="h6" noWrap component="div">
-              <Link to="/">
-                <HomeIcon /> Home
-              </Link>
-            </Typography>
-            {/* NavAvatar component for user account */}
-            <NavAvatar />
-          </Toolbar>
-        </AppBar>
+              {drawer}
+            </Drawer>
+            <Drawer
+              variant="permanent"
+              sx={{
+                display: { xs: "none", sm: "block" },
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: drawerWidth,
+                  backgroundColor: "#f8f9fb",
+                },
+              }}
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Box>
 
-        {/* Navigation drawer */}
-        <Box
-          sx={{
-            width: { sm: drawerWidth },
-            flexShrink: { sm: 0 },
-            backgroundColor: "#f8f9fb",
-          }}
-        >
-          <Drawer
-            container={container}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-            sx={{
-              display: { xs: "block", sm: "none" },
-              "& .MuiDrawer-paper": {
-                boxSizing: "border-box",
-                width: drawerWidth,
-                backgroundColor: "#f8f9fb",
-              },
-            }}
-          >
-            {drawer}
-          </Drawer>
-          <Drawer
-            variant="permanent"
-            sx={{
-              display: { xs: "none", sm: "block" },
-              "& .MuiDrawer-paper": {
-                boxSizing: "border-box",
-                width: drawerWidth,
-                backgroundColor: "#f8f9fb",
-              },
-            }}
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Box>
+          {/* Main content */}
+          <Box sx={{ flexGrow: 1, p: 3 }}>
+            <Toolbar />
+            <Switch>
+              {showEditModal && (
+                <div className="edit-modal">
+                  <h2>Edit Product</h2>
+                  <form>
+                    <label>Product Name</label>
+                    <input type="text" value={editedProduct.product_name} />
+                    <button onClick={closeEditModal}>Submit</button>
+                  </form>
+                </div>
+              )}
 
-        {/* Main content */}
-        <Box sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          <Switch>
-          {showEditModal && (
-        <div className="edit-modal">
-          <h2>Edit Product</h2>
-          <form>
-            <label>Product Name</label>
-            <input type="text" value={editedProduct.product_name} />
-            <button onClick={closeEditModal}>Submit</button>
-          </form>
-        </div>
-      )}
-
-            {/* Render routes based on menuItems */}
-            {menuItems.map((item) => (
-              <Route key={item.route} path={item.route} exact>
-                <Typography variant="h3">{item.route}</Typography>
+              {/* Render routes based on menuItems */}
+              {menuItems.map((item) => (
+                <Route key={item.route} path={item.route} exact>
+                  {item.screen ?? (
+                    <Typography variant="h3">{item.route}</Typography>
+                  )}
+                </Route>
+              ))}
+              <Route path="/dashboard/*" exact>
+                <NotFound />
               </Route>
-            ))}
-          </Switch>
-          <Products userType = {'shop owner'} openEditModal={openEditModal} />  
+            </Switch>
+            {/* <Products userType={"shop owner"} openEditModal={openEditModal} /> */}
+          </Box>
         </Box>
-      </Box>
-    </DashboardLayout>
-    
+      </DashboardLayout>
     </>
   );
 }

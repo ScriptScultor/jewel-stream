@@ -35,7 +35,7 @@ function ValidatedSelect({
             </MenuItem>
           ))}
         </Select>
-        {errorText && <p style={{ color: "red" }}>{errorText}</p>}
+        {errorText && <p className="error-text">{errorText}</p>}
       </FormControl>
     </div>
   );

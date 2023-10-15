@@ -105,7 +105,6 @@ export const fetchUserData = () => async (dispatch, getState) => {
       return;
     }
 
-    dispatch(setLoading());
     const response = await makeApiRequest({
       url: "/jewelstream/api/v1/userdetails",
     });

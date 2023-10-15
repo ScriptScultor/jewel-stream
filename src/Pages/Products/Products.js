@@ -12,13 +12,17 @@ const Products = ({ quantity, moreProducts, userType, openEditModal }) => {
   if (!quantity) {
     quantity = 5;
   }
-  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=${userType ? userType : 'guest'}&type=all&subtype=all&offset=0&limit=${quantity}`;
+
+  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=${
+    userType ? userType : "guest"
+  }&type=all&subtype=all&offset=0&limit=${quantity}`;
   if (mainCategory && subCategory) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
   }
   if (mainCategory && subCategory && moreProducts) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=${moreProducts}`;
   }
+
   // fetch all products from database
   useEffect(() => {
     makeApiRequest({
@@ -70,9 +74,10 @@ const Products = ({ quantity, moreProducts, userType, openEditModal }) => {
                     mainCategory ? mainCategory : product.product_category
                   }
                   subCategory={subCategory ? subCategory : product.product_name}
-                  userType ={userType}
+                  userType={userType}
                   key={index}
-                  openEditModal = {openEditModal}
+                  openEditModal={openEditModal}
+                  isDashboardCard={false}
                 />
               </>
             );
