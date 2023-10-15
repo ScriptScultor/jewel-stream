@@ -38,12 +38,12 @@ const ProductDetails = () => {
       <div className="product-details-container">
         <div className="productdetails-image-container">
           <img
-            src={selectedImage}
+            src={selectedImage ?? product[0].product_images_links[0]}
             alt={product.product_name}
             className="big-image"
           />
           <div className="thumbnail-gallery">
-            {product[0].product_images.map((image, index) => (
+            {product[0].product_images_links.map((image, index) => (
               <img
                 key={index}
                 src={image}
@@ -60,13 +60,8 @@ const ProductDetails = () => {
         <div className="product-info">
           <h1>{product[0].product_name}</h1>
           <p>{product[0].product_category}</p>
-          <p>
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip mollit anim id est laborum."
-          </p>
-          <p>Price: RS {product[0].product_price}</p>
+          <p>{product.product_description}</p>
+          <p>Price: RS {product[0].product_base_price}</p>
           <button className="order-button">Get A Quote</button>
           <button className="add-to-cart-button">Add To Cart</button>
         </div>

@@ -28,23 +28,25 @@ const Product = ({
         )}
 
         <Link
-          to={`/products/${mainCategory}/${subCategory}/${product.row_numbers}`}
+          to={`/products/${mainCategory}/${subCategory}/${product.id}`}
           className="order-link"
           onClick={handleProductClick}
         >
-          <div className="badge">Discount</div>
+          <div className="badge">{product.product_discount}%</div>
           <div className="product-tumb">
-            <img src={product.product_images[0]} alt="" />
+            <img src={product.product_images_links[0]} alt="" />
           </div>
           <div className="product-details">
-            <span className="product-catagory">{mainCategory}</span>
+            <span className="product-catagory">{product.product_category}</span>
             <h4>{product.product_name}</h4>
             {/* <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero,
           possimus nostrum!
         </p> */}
             <div className="product-bottom-details">
-              <div className="product-price">Rs.{product.product_price}</div>
+              <div className="product-price">
+                Rs.{product.product_base_price}
+              </div>
               {/* <div class="product-links">
             <a href="">
               <i class="fa fa-heart"></i>
