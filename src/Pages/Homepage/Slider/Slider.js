@@ -5,37 +5,35 @@ import "./Slider.css";
 function Slider() {
   // return home page slide here
   return (
-    <div className='Slider'>
-      <Carousel className='text-left carousel'>
+    <div className="Slider">
+      <Carousel className="text-left carousel">
         <Carousel.Item>
           <img
-            className='d-block w-100'
-            src='https://i.ibb.co/D5hDkK3/slider3-6961d5ba-6657-44d0-924d-48cb84f24007-2000x.webp'
-            alt='First slide'
+            className="d-block w-100"
+            src="https://i.ibb.co/D5hDkK3/slider3-6961d5ba-6657-44d0-924d-48cb84f24007-2000x.webp"
+            alt="First slide"
           />
-          <Carousel.Caption className='left'>
-            <p className='slider-text subtitle'>AMAZING FROM JEWELRY</p>
+          <Carousel.Caption className="left">
+            <p className="slider-text subtitle">AMAZING FROM JEWELRY</p>
             {/* <h3 className='slider-title'>Dimond Rings Decoration</h3> */}
-            <p className='slider-text'>Discount 20% Off For Ruby Members</p>
-            <Button className='discover-btn' variant='danger'>
+            <p className="slider-text">Discount 20% Off For Ruby Members</p>
+            <Button className="discover-btn" variant="danger">
               DISCOVER NOW
             </Button>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
-            className='d-block w-100'
-            src='https://i.ibb.co/wwbj9xq/slider-6804f5c5-7a22-4249-b276-44c59cc9c305-2000x.webp'
-            alt='Second slide'
+            className="d-block w-100"
+            src="https://i.ibb.co/wwbj9xq/slider-6804f5c5-7a22-4249-b276-44c59cc9c305-2000x.webp"
+            alt="Second slide"
           />
 
-          <Carousel.Caption className='right'>
-            <p className='slider-text subtitle'>AMAZING FROM JEWELRY</p>
+          <Carousel.Caption className="right">
+            <p className="slider-text subtitle">AMAZING FROM JEWELRY</p>
             {/* <h3 className='slider-title'>Gold Rings Decoration</h3> */}
-            <p className='slider-text'>Discount 20% Off For Ruby Members</p>
-            <Button className='discover-btn'>
-              DISCOVER NOW
-            </Button>
+            <p className="slider-text">Discount 20% Off For Ruby Members</p>
+            <Button className="discover-btn">DISCOVER NOW</Button>
           </Carousel.Caption>
         </Carousel.Item>
         {/* <Carousel.Item>

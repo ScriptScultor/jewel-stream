@@ -106,7 +106,7 @@ export const fetchUserData = () => async (dispatch, getState) => {
     }
 
     const response = await makeApiRequest({
-      url: "/jewelstream/api/v1/userdetails",
+      url: "/jewelstream/api/v1/userAndShopdetails?target=USER",
     });
 
     dispatch(setUser({ ...response, color: getRandomColor() })); // Update user data in the state

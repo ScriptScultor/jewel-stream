@@ -12,6 +12,7 @@ import { calculateMaxHeight, formatTimestamp } from "../../Utils/services";
 import { CircularProgress } from "@mui/material";
 import OutLineCircularButton from "../../components/Button/OutlineRadiusButton";
 import ProductRow from "./ProductRow";
+import { fetchCategories } from "../../store/Categories/CategoriesAction";
 
 const columns = [
   { id: "id", label: "Id" },
@@ -72,6 +73,11 @@ export default function MyProducts() {
       });
     }
   }, [products]);
+
+  useEffect(() => {
+    // Dispatch the fetchCategories action to load categories
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   const handleLoadMore = () => {
     const nextPage = page + productLimit;

@@ -108,6 +108,15 @@ const isEmptyString = (str) => {
   return str.trim() === "";
 };
 
+const validatePincode = (pincode) => {
+  const pincodeRegex = /^\d{6}$/; // A 6-digit number
+  if (!pincodeRegex.test(pincode)) {
+    return "Invalid pincode";
+  }
+
+  return "";
+};
+
 // Export all validation functions in an object
 export const validationFunctions = {
   isValidEmail,
@@ -118,4 +127,5 @@ export const validationFunctions = {
   isEmptyString,
   isRequired,
   validateGstNumber,
+  validatePincode,
 };

@@ -7,7 +7,6 @@ import "./Button.css";
 const AuthButton = ({ title, isLoading, onClick }) => {
   return (
     <Button
-      type="submit"
       variant="contained"
       disabled={isLoading}
       className="auth-button"

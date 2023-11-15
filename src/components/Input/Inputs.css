@@ -19,3 +19,50 @@ p.error-text {
   margin-left: 0;
   color: #d32f2f;
 }
+
+/* File css changes */
+.custom-uploader-container {
+  width: 100%; /* Adjust the width as needed */
+  height: 190px;
+}
+
+.custom-uploader {
+  position: relative;
+  width: 100%;
+  height: 150px; /* Adjust the height as needed */
+  border: 2px dashed grey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-text {
+  position: absolute;
+  color: grey;
+  font-size: 16px;
+}
+.custom-uploader.error-picker {
+  border-color: #d32f2f;
+}
+
+.custom-uploader.error-picker .upload-text {
+  color: #d32f2f;
+}

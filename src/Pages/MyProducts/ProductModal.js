@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,21 +12,26 @@ import Modal from "../../components/Dialog/Dialog";
 import { FormControlLabel } from "@mui/material";
 import { validationFunctions } from "../../Utils/validations";
 import { useDispatch, useSelector } from "react-redux";
-import { editProduct } from "../../store/MyProducts/MyProductsAction";
+import {
+  editProduct,
+  fetchProducts,
+} from "../../store/MyProducts/MyProductsAction";
 import AuthButton from "../../components/Button/AuthButton";
 
 export default function ProductModal({ show, handleClose, product }) {
   const { control, handleSubmit, formState, clearErrors, setValue } = useForm();
   const { actionLoader } = useSelector((state) => state.myproduct);
+  const { categories } = useSelector((state) => state.categories);
+  const [subCategory, setSubCategory] = useState([]);
   const dispatch = useDispatch();
 
   const handleUpdate = async (data) => {
     // Perform the update action using formData
-    console.log("This check");
     try {
       const result = await dispatch(editProduct(data));
 
       if (result.success) {
+        dispatch(fetchProducts(0, 30));
         //close the modal
         handleClose();
       }
@@ -48,6 +53,12 @@ export default function ProductModal({ show, handleClose, product }) {
     handleClose();
   };
 
+  const onCategoryChange = (category) => {
+    const data = categories.filter((ele) => ele.main_category === category);
+    setSubCategory(data[0].sub_categories);
+  };
+
+  console.log(subCategory);
   return (
     <Modal show={show} handleClose={modalClose}>
       <DialogTitle>Update Product</DialogTitle>
@@ -86,14 +97,16 @@ export default function ProductModal({ show, handleClose, product }) {
                 onChange={(value) => {
                   field.onChange(value);
                   clearErrors("product_category");
+                  onCategoryChange(value);
                 }}
                 isError={Boolean(formState.errors.product_category)}
                 errorText={formState.errors.product_category?.message}
-                options={[
-                  { value: "Gold", label: "Gold" },
-                  { value: "Diamond", label: "Diamond" },
-                  { value: "Silver", label: "Silver" },
-                ]}
+                options={categories.map((categroy) => {
+                  return {
+                    value: categroy.main_category,
+                    label: categroy.main_category,
+                  };
+                })}
               />
             )}
           />
@@ -104,7 +117,7 @@ export default function ProductModal({ show, handleClose, product }) {
               required: "Product Sub Category is required",
             }}
             render={({ field }) => (
-              <ValidatedTextField
+              <ValidatedSelect
                 label="Product Sub Category"
                 value={field.value}
                 isError={Boolean(formState.errors.product_sub_category)}
@@ -113,6 +126,8 @@ export default function ProductModal({ show, handleClose, product }) {
                   field.onChange(value);
                   clearErrors("product_sub_category");
                 }}
+                options={subCategory.map((ele) => ({ value: ele, label: ele }))}
+                isDisabled={subCategory.length === 0}
               />
             )}
           />

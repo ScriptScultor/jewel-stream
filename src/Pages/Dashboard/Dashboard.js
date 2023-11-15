@@ -29,11 +29,17 @@ import NavAvatar from "../Shared/Header/NavAvatar/NavAvatar"; // Import the NavA
 import DashboardLayout from "../../layout/DashboardLayout";
 import NotFound from "../NotFound/NotFound";
 import MyProducts from "../MyProducts/MyProducts";
+import ShopForm from "../Shop/CreateShop";
 
 const drawerWidth = 240;
 
 const menuItems = [
-  { title: "Dashboard Home", route: "/dashboard", icon: <HomeIcon /> },
+  {
+    title: "Dashboard Home",
+    route: "/dashboard",
+    icon: <HomeIcon />,
+    screen: <ShopForm />,
+  },
   {
     title: "Update Products",
     route: "/dashboard/product-update",
@@ -95,11 +101,13 @@ function Dashboard(props) {
   const drawer = (
     <div>
       <Toolbar className="p-0">
-        <img
-          className="logo"
-          src="https://drive.google.com/uc?export=view&id=1I0wdxR7U_nTXZBglx9U7BMDYAZB2ii6Y"
-          alt=""
-        />
+        <Link to="/" className="w-100">
+          <img
+            className="w-100"
+            src="https://drive.google.com/uc?export=view&id=1I0wdxR7U_nTXZBglx9U7BMDYAZB2ii6Y"
+            alt=""
+          />
+        </Link>
       </Toolbar>
       <List>
         {menuItems.map((item, index) => (

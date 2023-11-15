@@ -13,10 +13,11 @@ function ValidatedSelect({
   isError,
   errorText,
   options,
+  isDisabled,
 }) {
   return (
     <div className="form-select-container">
-      <FormControl fullWidth variant="standard">
+      <FormControl fullWidth variant="standard" disabled={isDisabled}>
         <InputLabel id="demo-simple-select-standard-label" error={isError}>
           {label}
         </InputLabel>
