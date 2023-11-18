@@ -9,22 +9,22 @@ import ImageUploader from "../../components/Input/FileSelector";
 
 const fields = [
   {
-    name: "shopName",
+    name: "shop_name",
     label: "Shop Name",
     validation: { required: "Shop Name is required" },
   },
   {
-    name: "shopAddress",
+    name: "shop_address",
     label: "Shop Address",
     validation: { required: "Shop Address is required" },
   },
   {
-    name: "shopCity",
+    name: "shop_city",
     label: "City",
     validation: { required: "City is required" },
   },
   {
-    name: "shopPincode",
+    name: "shop_pincode",
     label: "Pincode",
     validation: {
       required: "Pincode is required",
@@ -32,12 +32,12 @@ const fields = [
     },
   },
   {
-    name: "shopDescription",
+    name: "shop_description",
     label: "Shop Description",
     validation: { required: "Shop Description is required" },
   },
   {
-    name: "shopLogoImage",
+    name: "shop_logo_image",
     label: "Shop Logo",
     validation: { required: "Please select a shop logo" },
     render: ({ errors, field }) => (
@@ -51,19 +51,26 @@ const fields = [
   },
 ];
 
-export default function ShopForm({ shopData, onSubmit }) {
-  const { control, handleSubmit, formState } = useForm();
+export default function ShopForm() {
+  const { control, handleSubmit, formState } = useForm({
+    defaultValues: {
+      shop_name: "MyShop",
+      shop_address: "123 Main Street",
+      shop_city: "Sample City",
+      shop_pincode: "12345",
+      shop_description: "This is a sample shop description.",
+    },
+  });
   const { errors } = formState;
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.shop);
 
   const handleUpdate = async (data) => {
     try {
-      // const result = await dispatch(saveShopData(data));
-      // if (result.success) {
-      //   console.log("success");
-      // }
-      console.log(data.shopLogoImage);
+      const result = await dispatch(saveShopData(data));
+      if (result.success) {
+        console.log("success");
+      }
     } catch {}
   };
 

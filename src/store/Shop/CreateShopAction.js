@@ -36,17 +36,10 @@ export default shopFormSlice.reducer;
 export const saveShopData = (shopData) => async (dispatch) => {
   try {
     dispatch(setLoading());
-
-    const payload = {
-      shopName: "MyShop",
-      shopOwnerMobileNumber: "9876543210",
-      shopGstNumber: "1234567890",
-      shopAddress: "123 Main Street",
-      shopCity: "Sample City",
-      shopPincode: "12345",
-      shopLogoId: "qwertyuioplkjhgfdsaZXCVBNM",
-      shopDescription: "This is a sample shop description.",
-    };
+    const payload = new FormData();
+    Object.keys(shopData).map((keyName, i) => {
+      payload.append(keyName, shopData[keyName]);
+    });
 
     // Replace the following URL and method with your actual API endpoint and request method
     const response = await makeApiRequest({
