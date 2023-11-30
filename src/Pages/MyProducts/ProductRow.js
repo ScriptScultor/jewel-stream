@@ -77,8 +77,13 @@ const ProductCell = ({ column, product }) => {
             ]}
           />
         </>
-      ) : column.id === "product_images_links" ? (
-        <img alt={product.product_name} src={value[0]} width="50" height="50" />
+      ) : column.id === "product_images" ? (
+        <img
+          alt={product.product_name}
+          src={value.split("_KEY_1_")[0]}
+          width="50"
+          height="50"
+        />
       ) : column.format ? (
         column.format(value)
       ) : (

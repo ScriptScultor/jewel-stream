@@ -34,7 +34,7 @@ const Product = ({
         >
           <div className="badge">{product.product_discount}%</div>
           <div className="product-tumb">
-            <img src={product.product_images_links[0]} alt="" />
+            <img src={product.product_images.split("_KEY_1_")[0]} alt="" />
           </div>
           <div className="product-details">
             <span className="product-catagory">{product.product_category}</span>

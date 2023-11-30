@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { validationFunctions } from "../../Utils/validations";
-import ValidatedTextField from "../../components/Input/TextField"; // Import your ValidatedTextField component
-import AuthButton from "../../components/Button/AuthButton"; // Import your ValidatedTextField component
+import ValidatedTextField from "../../components/Input/TextField";
+import AuthButton from "../../components/Button/AuthButton";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShopData } from "../../store/Shop/CreateShopAction";
+import {
+  saveShopData,
+  fetchStoreData,
+  updateShopData,
+} from "../../store/Shop/CreateShopAction";
 import ImageUploader from "../../components/Input/FileSelector";
+import { Button } from "@mui/material";
+import "./Shop.css";
 
+// Define form fields
 const fields = [
   {
     name: "shop_name",
@@ -37,36 +44,64 @@ const fields = [
     validation: { required: "Shop Description is required" },
   },
   {
-    name: "shop_logo_image",
+    name: "file",
     label: "Shop Logo",
     validation: { required: "Please select a shop logo" },
+    customValidation: (isRequired) => {
+      return isRequired ? { required: "Please select a shop logo" } : {};
+    },
     render: ({ errors, field }) => (
       <ImageUploader
         isError={Boolean(errors[field.name])}
         errorText={errors[field.name] ? errors[field.name].message : ""}
         onChange={(base64) => field.onChange(base64)}
-        value={field.value}
       />
     ),
   },
 ];
 
-export default function ShopForm() {
-  const { control, handleSubmit, formState } = useForm({
-    defaultValues: {
-      shop_name: "MyShop",
-      shop_address: "123 Main Street",
-      shop_city: "Sample City",
-      shop_pincode: "12345",
-      shop_description: "This is a sample shop description.",
-    },
-  });
+const ShopForm = () => {
+  const { control, handleSubmit, formState, setValue, reset } = useForm();
   const { errors } = formState;
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.shop);
+  const { isLoading, data: shopData } = useSelector((state) => state.shop);
+  const [isEditMode, setEditMode] = useState(false);
+
+  const setFormData = useCallback(
+    (formData) => {
+      reset();
+      Object.keys(formData).forEach((fieldName) => {
+        setValue(fieldName, formData[fieldName]);
+      });
+    },
+    [setValue, reset]
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!shopData) {
+          await dispatch(fetchStoreData());
+        }
+
+        if (shopData) {
+          setFormData(shopData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, setValue, shopData, reset, setFormData]);
 
   const handleUpdate = async (data) => {
     try {
+      if (shopData) {
+        handleEditShop(data);
+        return;
+      }
+
       const result = await dispatch(saveShopData(data));
       if (result.success) {
         console.log("success");
@@ -74,7 +109,78 @@ export default function ShopForm() {
     } catch {}
   };
 
-  return (
+  const handleEditShop = async (data) => {
+    try {
+      const payload = {
+        ...data,
+        shop_logo_image: shopData.shop_logo_image,
+      };
+
+      delete payload.shop_draft_id;
+
+      const result = await dispatch(updateShopData(payload));
+      if (result.success) {
+        setEditMode(false);
+      }
+    } catch {}
+  };
+
+  return shopData && !isEditMode ? (
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-12">
+          <section className="panel">
+            <div className="panel-body">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="pro-img-details">
+                    <img
+                      src={shopData.shop_logo_image}
+                      alt="Product_Image"
+                      className="shop_image"
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <h1 className="text-start ps-0">{shopData.shop_name}</h1>
+                  <p className="text-start">{shopData.shop_description}</p>
+                  <div className="product-meta mt-3">
+                    <span className="posted-in">
+                      <h6 className="shop-title">Address:</h6>
+                      <p className="shop-short-description">
+                        {shopData.shop_address}
+                      </p>
+                    </span>
+                    <span className="posted-in">
+                      <h6 className="shop-title">City:</h6>{" "}
+                      <p className="shop-short-description">
+                        {shopData.shop_city}
+                      </p>
+                    </span>
+                    <span className="posted-in">
+                      <h6 className="shop-title">Pincode:</h6>{" "}
+                      <p className="shop-short-description">
+                        {shopData.shop_pincode}
+                      </p>
+                    </span>
+                  </div>
+                  <Button
+                    className="btn bg-primary text-white"
+                    onClick={() => {
+                      setFormData(shopData);
+                      setEditMode(true);
+                    }}
+                  >
+                    Edit Shop Detail
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  ) : (
     <center>
       <div className="container">
         <div className="row">
@@ -85,39 +191,46 @@ export default function ShopForm() {
                   Update Business Details
                 </h5>
                 <img
-                  src="https://img.freepik.com/free-vector/shop-with-sign-we-are-open_23-2148547718.jpg?w=1060&t=st=1697730923~exp=1697731523~hmac=5a155bb3c14886a7e0e618cad7f32a936aae5f572bad713bd11ebbf3a77938b6"
+                  src={
+                    shopData != null
+                      ? shopData.shop_logo_image
+                      : "https://img.freepik.com/free-vector/shop-with-sign-we-are-open_23-2148547718.jpg?w=1060&t=st=1697730923~exp=1697731523~hmac=5a155bb3c14886a7e0e618cad7f32a936aae5f572bad713bd11ebbf3a77938b6"
+                  }
                   className="img-fluid"
-                  alt=""
+                  alt="shop_image"
+                  loading="lazy"
                 />
-                <div className="container">
+                <div className="container mt-3">
                   <form onSubmit={handleSubmit(handleUpdate)}>
-                    {fields.map((fieldData, index) => {
-                      return (
-                        <Controller
-                          key={index}
-                          name={fieldData.name}
-                          control={control}
-                          rules={fieldData.validation}
-                          render={({ field }) =>
-                            fieldData.render !== undefined ? (
-                              fieldData.render({ errors, field })
-                            ) : (
-                              <ValidatedTextField
-                                label={fieldData.label}
-                                value={field.value}
-                                onChange={field.onChange}
-                                isError={Boolean(errors[field.name])}
-                                errorText={
-                                  errors[field.name]
-                                    ? errors[field.name].message
-                                    : ""
-                                }
-                              />
-                            )
-                          }
-                        />
-                      );
-                    })}
+                    {fields.map((fieldData, index) => (
+                      <Controller
+                        key={index}
+                        name={fieldData.name}
+                        control={control}
+                        rules={
+                          fieldData.customValidation !== undefined
+                            ? fieldData.customValidation(shopData === undefined)
+                            : fieldData.validation
+                        }
+                        render={({ field }) =>
+                          fieldData.render !== undefined ? (
+                            fieldData.render({ errors, field })
+                          ) : (
+                            <ValidatedTextField
+                              label={fieldData.label}
+                              value={field.value}
+                              onChange={field.onChange}
+                              isError={Boolean(errors[field.name])}
+                              errorText={
+                                errors[field.name]
+                                  ? errors[field.name].message
+                                  : ""
+                              }
+                            />
+                          )
+                        }
+                      />
+                    ))}
                     <AuthButton
                       title={"Save"}
                       isLoading={isLoading}
@@ -132,4 +245,6 @@ export default function ShopForm() {
       </div>
     </center>
   );
-}
+};
+
+export default ShopForm;

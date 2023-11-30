@@ -73,7 +73,9 @@ export const fetchProducts = (page, limit) => async (dispatch, getState) => {
     const response = await makeApiRequest({
       url: `/jewelstream/api/v1/getproducts?usertype=${
         auth.user ? "shop owner" : "guest"
-      }&type=all&subtype=all&offset=${page}&limit=${limit}`,
+      }&type=all&subtype=all&offset=${page}&limit=${limit}&&shop_id=${[
+        auth.user.data.shop_draft_id,
+      ]}`,
     }); // Implement this function accordingly
 
     if (page === 0) {
@@ -101,7 +103,7 @@ export const deleteProduct = (product) => async (dispatch) => {
 
     const result = await makeApiRequest({
       method: HttpMethod.DELETE,
-      url: `/jewelstream/api/v1/deleteProducts?target=PRODUCTS&rowNumber=${product.id}`,
+      url: `/jewelstream/api/v1/target=PRODUCTS&rowNumber=${product.product_draft_id}      `,
     }); // Implement this function accordingly
 
     // Dispatch success action
@@ -122,35 +124,29 @@ export const deleteProduct = (product) => async (dispatch) => {
 export const editProduct = (product) => async (dispatch) => {
   try {
     dispatch(actionLoading()); // Set editing state to true
+    const payloadSetup = {
+      ...product,
+    };
+    const imageKeys = ["main_image", "sub_image_one", "sub_image_two"];
+
+    product.product_images.split("_KEY_1_").map((link, index) => {
+      return (payloadSetup[imageKeys[index]] = link);
+    });
+
+    delete payloadSetup.product_images;
+    delete payloadSetup.product_in_stock;
 
     // Extract only the desired fields from the original product data
-    const editedProductData = [
-      {
-        productId: product.id,
-        fieldsToUpdate: {
-          product_id_for_update: product.product_id_for_update,
-          email_address: product.email_address,
-          product_category: product.product_category,
-          product_sub_category: product.product_sub_category,
-          product_name: product.product_name,
-          product_base_price: product.product_base_price,
-          product_discount: product.product_discount,
-          product_in_stock: product.product_in_stock,
-          product_weight: product.product_weight,
-          product_description: product.product_description,
-          product_owner_mobile_number: product.product_owner_mobile_number,
-          owner_product_id: product.owner_product_id,
-          sheet_row_number: product.sheet_row_number,
-          is_active: product.is_active,
-        },
-      },
-    ];
+    const payload = new FormData();
+    Object.keys(payloadSetup).map((keyName, i) => {
+      return payload.append(keyName, payloadSetup[keyName]);
+    });
 
     // Replace this with your actual API call to edit the product
     const result = await makeApiRequest({
       method: HttpMethod.PUT, // or "PATCH" based on your API
-      url: `/jewelstream/api/v1/updateProducts?target=PRODUCTS`,
-      data: editedProductData, // Send the edited product data
+      url: `/jewelstream/api/v1/updateProductDetails`,
+      data: payload, // Send the edited product data
     });
 
     // Dispatch success action

@@ -13,10 +13,11 @@ import { CircularProgress } from "@mui/material";
 import OutLineCircularButton from "../../components/Button/OutlineRadiusButton";
 import ProductRow from "./ProductRow";
 import { fetchCategories } from "../../store/Categories/CategoriesAction";
+import { Container } from "react-bootstrap";
 
 const columns = [
   { id: "id", label: "Id" },
-  { id: "product_images_links", label: "Product Image" },
+  { id: "product_images", label: "Product Image" },
   { id: "product_name", label: "Product Name" },
   {
     id: "createdAt",
@@ -85,63 +86,65 @@ export default function MyProducts() {
   };
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <TableContainer
-        sx={{ maxHeight: calculateMaxHeight(), overflow: "auto" }}
-        ref={containerRef}
-      >
-        <Table stickyHeader aria-label="sticky table" sx={{ width: "100%" }}>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id} align={column.align}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {error ? (
+    <Container>
+      <Paper sx={{ width: "100%" }}>
+        <TableContainer
+          sx={{ maxHeight: calculateMaxHeight(), overflow: "auto" }}
+          ref={containerRef}
+        >
+          <Table stickyHeader aria-label="sticky table" sx={{ width: "100%" }}>
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={columns.length} align="center">
-                  {error}
-                </TableCell>
+                {columns.map((column) => (
+                  <TableCell key={column.id} align={column.align}>
+                    {column.label}
+                  </TableCell>
+                ))}
               </TableRow>
-            ) : (
-              (products ?? []).map((row) => (
-                <ProductRow columns={columns} rowData={row} key={row.id} />
-              ))
-            )}
-            {isLoading && page === 0 ? (
-              <TableRow>
-                <TableCell colSpan={columns.length} align="center">
-                  <CircularProgress />
-                </TableCell>
-              </TableRow>
-            ) : null}
-            {count >= productLimit && (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  align="center"
-                  className="py-3"
-                >
-                  <OutLineCircularButton
-                    onClick={handleLoadMore}
-                    title="Load More"
-                    isLoading={isLoading}
-                    sx={{
-                      borderRadius: "25px",
-                      margin: "10px",
-                      backgroundColor: "transparent",
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+            </TableHead>
+            <TableBody>
+              {error ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length} align="center">
+                    {error}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                (products ?? []).map((row) => (
+                  <ProductRow columns={columns} rowData={row} key={row.id} />
+                ))
+              )}
+              {isLoading && page === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length} align="center">
+                    <CircularProgress />
+                  </TableCell>
+                </TableRow>
+              ) : null}
+              {count >= productLimit && (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    align="center"
+                    className="py-3"
+                  >
+                    <OutLineCircularButton
+                      onClick={handleLoadMore}
+                      title="Load More"
+                      isLoading={isLoading}
+                      sx={{
+                        borderRadius: "25px",
+                        margin: "10px",
+                        backgroundColor: "transparent",
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+    </Container>
   );
 }

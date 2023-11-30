@@ -24,6 +24,7 @@ p.error-text {
 .custom-uploader-container {
   width: 100%; /* Adjust the width as needed */
   height: 190px;
+  position: relative;
 }
 
 .custom-uploader {
@@ -65,4 +66,38 @@ p.error-text {
 
 .custom-uploader.error-picker .upload-text {
   color: #d32f2f;
+}
+
+/* CustomImageUploader.css */
+
+.custom-uploader-container.shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.uploaded-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.shimmer-effect {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
 }

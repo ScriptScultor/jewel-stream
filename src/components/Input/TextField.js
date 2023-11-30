@@ -23,6 +23,9 @@ function ValidatedTextField({
         id="standard-basic"
         variant="standard"
         type={type}
+        InputLabelProps={{
+          shrink: Boolean(value), // This ensures the label doesn't overlap with the value
+        }}
       />
     </div>
   );

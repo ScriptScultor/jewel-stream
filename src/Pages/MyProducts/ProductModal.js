@@ -7,16 +7,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useForm, Controller } from "react-hook-form";
 import ValidatedSelect from "../../components/Input/Dropdown";
 import ValidatedTextField from "../../components/Input/TextField";
-import Checkbox from "@mui/material/Checkbox";
 import Modal from "../../components/Dialog/Dialog";
-import { FormControlLabel } from "@mui/material";
-import { validationFunctions } from "../../Utils/validations";
 import { useDispatch, useSelector } from "react-redux";
 import {
   editProduct,
   fetchProducts,
 } from "../../store/MyProducts/MyProductsAction";
 import AuthButton from "../../components/Button/AuthButton";
+import CustomImageUploader from "../../components/Input/FileSelector";
 
 export default function ProductModal({ show, handleClose, product }) {
   const { control, handleSubmit, formState, clearErrors, setValue } = useForm();
@@ -29,7 +27,6 @@ export default function ProductModal({ show, handleClose, product }) {
     // Perform the update action using formData
     try {
       const result = await dispatch(editProduct(data));
-
       if (result.success) {
         dispatch(fetchProducts(0, 30));
         //close the modal
@@ -41,7 +38,7 @@ export default function ProductModal({ show, handleClose, product }) {
   React.useEffect(() => {
     // Prefill the form data
     for (const key of Object.keys(product)) {
-      setValue(key, product[key]);
+      setValue(key, !product[key] ? "" : product[key]);
     }
   }, [product, setValue, show]);
 
@@ -58,7 +55,20 @@ export default function ProductModal({ show, handleClose, product }) {
     setSubCategory(data[0].sub_categories);
   };
 
-  console.log(subCategory);
+  const getImage = (index) => {
+    if (product?.product_images === undefined) {
+      return null;
+    }
+
+    const image = product.product_images.split("_KEY_1_")[index];
+    return image ?? null;
+  };
+
+  const fileRules =
+    product?.product_name === undefined
+      ? { required: "Product image is required" }
+      : {};
+
   return (
     <Modal show={show} handleClose={modalClose}>
       <DialogTitle>Update Product</DialogTitle>
@@ -172,29 +182,6 @@ export default function ProductModal({ show, handleClose, product }) {
             )}
           />
           <Controller
-            name="product_in_stock"
-            control={control}
-            rules={{
-              required: "Product In Stock is required",
-            }}
-            render={({ field }) => (
-              <ValidatedSelect
-                label="Product In Stock"
-                value={field.value}
-                onChange={(value) => {
-                  field.onChange(value);
-                  clearErrors("product_in_stock");
-                }}
-                isError={Boolean(formState.errors.product_in_stock)}
-                errorText={formState.errors.product_in_stock?.message}
-                options={[
-                  { value: true, label: "Yes" },
-                  { value: false, label: "No" },
-                ]}
-              />
-            )}
-          />
-          <Controller
             name="product_weight"
             control={control}
             rules={{
@@ -232,82 +219,58 @@ export default function ProductModal({ show, handleClose, product }) {
               />
             )}
           />
+
           <Controller
-            name="product_owner_mobile_number"
+            name="owner_shop_product_id"
             control={control}
-            rules={{
-              required: "Owner Mobile Number is required",
-              validate: (value) =>
-                validationFunctions.validatePhoneNumber(value) || true,
-            }}
-            render={({ field }) => (
-              <ValidatedTextField
-                label="Owner Mobile Number"
-                type="tel"
-                value={field.value}
-                isError={Boolean(formState.errors.product_owner_mobile_number)}
-                errorText={
-                  formState.errors.product_owner_mobile_number?.message
-                }
-                onChange={(value) => {
-                  field.onChange(value);
-                  clearErrors("product_owner_mobile_number");
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="owner_product_id"
-            control={control}
-            rules={{
-              required: "Owner Product ID is required",
-            }}
             render={({ field }) => (
               <ValidatedTextField
                 label="Owner Product ID"
                 value={field.value}
-                isError={Boolean(formState.errors.owner_product_id)}
-                errorText={formState.errors.owner_product_id?.message}
+                isError={false}
                 onChange={(value) => {
                   field.onChange(value);
-                  clearErrors("owner_product_id");
                 }}
               />
             )}
           />
           <Controller
-            name="sheet_row_number"
+            name="main_image_file"
             control={control}
-            rules={{
-              required: "Sheet Row Number is required",
-            }}
+            rules={fileRules}
             render={({ field }) => (
-              <ValidatedTextField
-                label="Sheet Row Number"
-                value={field.value}
-                isError={Boolean(formState.errors.sheet_row_number)}
-                errorText={formState.errors.sheet_row_number?.message}
-                onChange={(value) => {
-                  field.onChange(value);
-                  clearErrors("sheet_row_number");
-                }}
+              <CustomImageUploader
+                identifier="main_image_file"
+                onChange={(file) => field.onChange(file)}
+                isError={Boolean(formState.errors.main_image_file)}
+                errorText={formState.errors.main_image_file?.message}
+                value={getImage(0)}
               />
             )}
           />
           <Controller
-            name="is_active"
+            name="sub_image_file1"
             control={control}
+            rules={fileRules}
             render={({ field }) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    {...field}
-                    checked={field.value}
-                    onChange={(e) => field.onChange(e.target.checked)}
-                    color="primary"
-                  />
-                }
-                label="Is Active"
+              <CustomImageUploader
+                identifier="sub_image_file1"
+                onChange={(file) => field.onChange(file)}
+                isError={Boolean(formState.errors.sub_image_file1)}
+                errorText={formState.errors.sub_image_file1?.message}
+                value={getImage(1)}
+              />
+            )}
+          />
+          <Controller
+            name="sub_image_file2"
+            control={control}
+            rules={{}}
+            render={({ field }) => (
+              <CustomImageUploader
+                identifier="sub_image_file2"
+                onChange={(file) => field.onChange(file)}
+                value={getImage(2)}
               />
             )}
           />

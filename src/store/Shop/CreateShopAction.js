@@ -38,7 +38,7 @@ export const saveShopData = (shopData) => async (dispatch) => {
     dispatch(setLoading());
     const payload = new FormData();
     Object.keys(shopData).map((keyName, i) => {
-      payload.append(keyName, shopData[keyName]);
+      return payload.append(keyName, shopData[keyName]);
     });
 
     // Replace the following URL and method with your actual API endpoint and request method
@@ -49,6 +49,48 @@ export const saveShopData = (shopData) => async (dispatch) => {
     });
 
     dispatch(setData(response.data));
+
+    return { success: true };
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const fetchStoreData = () => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+
+    // Replace the following URL and method with your actual API endpoint and request method
+    const response = await makeApiRequest({
+      method: HttpMethod.GET, // adjust the method based on your API
+      url: "/jewelstream/api/v1/userAndShopdetails?target=SHOP", // Replace with your API endpoint
+    });
+
+    dispatch(setData(response.data));
+
+    return { success: true };
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const updateShopData = (shopData) => async (dispatch) => {
+  try {
+    dispatch(setLoading());
+    const payload = new FormData();
+
+    Object.keys(shopData).map((keyName, i) => {
+      return payload.append(keyName, shopData[keyName]);
+    });
+
+    // Replace the following URL and method with your actual API endpoint and request method
+    await makeApiRequest({
+      method: HttpMethod.PUT, // or PUT based on your API
+      url: "/jewelstream/api/v1/updateShopDetails", // Replace with your API endpoint
+      data: payload,
+    });
+
+    dispatch(setData(null));
 
     return { success: true };
   } catch (error) {
