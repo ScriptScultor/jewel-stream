@@ -4,13 +4,13 @@ import Button from "@mui/material/Button";
 
 import "./Button.css";
 
-const AuthButton = ({ title, isLoading, type = "submit" }) => {
+const AuthButton = ({ title, isLoading, onClick }) => {
   return (
     <Button
       variant="contained"
-      type={type}
       disabled={isLoading}
       className="auth-button"
+      onClick={() => (onClick ? onClick() : null)}
     >
       {isLoading ? <CircularProgress size={16} color="primary" /> : title}
     </Button>

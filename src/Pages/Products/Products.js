@@ -6,19 +6,23 @@ import "./Products.css";
 import { useParams } from "react-router-dom";
 import { makeApiRequest } from "../../data/axios";
 import ProductCarousel from "../ProductDetails/ProductCarousel";
-const Products = ({ quantity, moreProducts }) => {
+const Products = ({ quantity, moreProducts, userType, openEditModal }) => {
   const [products, setProducts] = useState([]);
   let { mainCategory, subCategory } = useParams();
   if (!quantity) {
-    quantity = 10;
+    quantity = 5;
   }
-  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=${quantity}`;
+
+  let productsUrl = `/jewelstream/api/v1/getproducts?usertype=${
+    userType ? userType : "guest"
+  }&type=all&subtype=all&offset=0&limit=${quantity}`;
   if (mainCategory && subCategory) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=10`;
   }
   if (mainCategory && subCategory && moreProducts) {
     productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=${mainCategory}&subtype=${subCategory}&offset=0&limit=${moreProducts}`;
   }
+
   // fetch all products from database
   useEffect(() => {
     makeApiRequest({
@@ -70,7 +74,10 @@ const Products = ({ quantity, moreProducts }) => {
                     mainCategory ? mainCategory : product.product_category
                   }
                   subCategory={subCategory ? subCategory : product.product_name}
+                  userType={userType}
                   key={index}
+                  openEditModal={openEditModal}
+                  isDashboardCard={false}
                 />
               </>
             );

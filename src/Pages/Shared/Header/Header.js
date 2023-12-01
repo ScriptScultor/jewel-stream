@@ -1,49 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "./Header.css";
 import { Box } from "@mui/material";
 import NavbarAvatar from "./NavAvatar/NavAvatar";
 import NavbarLink from "./NavbarLink/NavbarLink";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../../../store/Categories/CategoriesAction";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
-let routeList = [
-  {
-    name: "Gold",
-    path: "/jewelStream",
-  },
-  {
-    name: "Silver",
-    path: "/derick",
-  },
-  {
-    name: "Platinum",
-    path: "/harsh",
-  },
-  {
-    name: "Diamond",
-    path: "/contact",
-  },
-  {
-    name: "Collection",
-    path: "/product",
-  },
-];
 const Header = () => {
-  // import user and logout from useAuth
-  const [category, setCategory] = useState([]);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.categories);
+
   useEffect(() => {
-    fetch("http://localhost:8080/jewelstream/api/v1/getmainandsubcategories", {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCategory(data.data);
-      });
-  }, []);
-  routeList = category;
+    // Dispatch the fetchCategories action to load categories
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   return (
     <div className="header sticky-top shadow-lg">
-      <Navbar className="" collapseOnSelect expand="lg" variant="light">
+      <Navbar collapseOnSelect expand="lg" variant="light">
         <Container>
           <Navbar.Brand as={Link} to="/">
             <img
@@ -52,13 +28,13 @@ const Header = () => {
               alt=""
             />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse className="text-bg-light" id="responsive-navbar-nav">
             <Nav className="nav-bar w-100">
-              {routeList.map((route,index) => {
+              {categories.map((route, index) => {
                 return (
                   <NavbarLink
-                  key={index}
+                    key={index}
                     title={route.main_category}
                     subcategory={route.sub_categories}
                   />

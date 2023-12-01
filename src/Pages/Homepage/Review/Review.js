@@ -18,7 +18,7 @@ function Review() {
     setActiveStep(step);
   };
 
-  const [reviews, setReviews] = React.useState([]);
+  const [reviews] = React.useState([]);
 
   useEffect(() => {}, []);
 

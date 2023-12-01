@@ -44,12 +44,12 @@ const makeApiRequest = async ({ method, url, data = {} }) => {
           message = response.data.error;
         } else if (typeof response.data.error === "object") {
           // If response.data.error is an object, stringify it and use it as the error message
-          message = JSON.stringify(response.data.error) || "OOPS! Something went wrong.";
+          message = "OOPS! Something went wrong.";
         }
       }
 
       // Throw an error with a custom message
-      throw new Error(message);
+      throw new Error(message.toString());
     }
   } catch (error) {
     // Handle errors, including HTTP errors

@@ -112,7 +112,11 @@ const Login = () => {
                   />
 
                   <div className="d-grid my-2">
-                    <AuthButton title="Login" isLoading={loginData.isLoading} />
+                    <AuthButton
+                      title="Login"
+                      isLoading={loginData.isLoading}
+                      onClick={handleSubmit(onSubmit)}
+                    />
                     <br className="my-3" />
                     <NavLink
                       style={{ textDecoration: "none" }}
@@ -122,6 +126,10 @@ const Login = () => {
                         Haven't Account? Please Registration
                       </Button>
                     </NavLink>
+                    <NavLink style={{ textDecoration: "none" }} to="/">
+                      <Button variant="text">Skip to home</Button>
+                    </NavLink>
+
                     <hr className="my-4" />
                     {/* <Button
                       onClick={handleClick}
