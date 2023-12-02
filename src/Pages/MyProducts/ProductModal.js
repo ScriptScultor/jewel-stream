@@ -10,6 +10,7 @@ import ValidatedTextField from "../../components/Input/TextField";
 import Modal from "../../components/Dialog/Dialog";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addProduct,
   editProduct,
   fetchProducts,
 } from "../../store/MyProducts/MyProductsAction";
@@ -26,7 +27,12 @@ export default function ProductModal({ show, handleClose, product }) {
   const handleUpdate = async (data) => {
     // Perform the update action using formData
     try {
-      const result = await dispatch(editProduct(data));
+      let result;
+      if (product?.product_name !== undefined) {
+        result = await dispatch(editProduct(data));
+      } else {
+        result = await dispatch(addProduct(data));
+      }
       if (result.success) {
         dispatch(fetchProducts(0, 30));
         //close the modal
@@ -36,9 +42,11 @@ export default function ProductModal({ show, handleClose, product }) {
   };
 
   React.useEffect(() => {
-    // Prefill the form data
-    for (const key of Object.keys(product)) {
-      setValue(key, !product[key] ? "" : product[key]);
+    if (product?.product_name !== undefined) {
+      // Prefill the form data
+      for (const key of Object.keys(product)) {
+        setValue(key, !product[key] ? "" : product[key]);
+      }
     }
   }, [product, setValue, show]);
 
@@ -69,6 +77,7 @@ export default function ProductModal({ show, handleClose, product }) {
       ? { required: "Product image is required" }
       : {};
 
+  const isNew = product?.product_name === undefined;
   return (
     <Modal show={show} handleClose={modalClose}>
       <DialogTitle>Update Product</DialogTitle>
@@ -235,7 +244,7 @@ export default function ProductModal({ show, handleClose, product }) {
             )}
           />
           <Controller
-            name="main_image_file"
+            name={isNew ? "main_image" : "main_image_file"}
             control={control}
             rules={fileRules}
             render={({ field }) => (
@@ -249,7 +258,7 @@ export default function ProductModal({ show, handleClose, product }) {
             )}
           />
           <Controller
-            name="sub_image_file1"
+            name={isNew ? "sub_image_one" : "sub_image_file1"}
             control={control}
             rules={fileRules}
             render={({ field }) => (
@@ -263,7 +272,7 @@ export default function ProductModal({ show, handleClose, product }) {
             )}
           />
           <Controller
-            name="sub_image_file2"
+            name={isNew ? "sub_image_two" : "sub_image_file2"}
             control={control}
             rules={{}}
             render={({ field }) => (
