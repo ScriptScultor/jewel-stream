@@ -13,7 +13,8 @@ import { CircularProgress } from "@mui/material";
 import OutLineCircularButton from "../../components/Button/OutlineRadiusButton";
 import ProductRow from "./ProductRow";
 import { fetchCategories } from "../../store/Categories/CategoriesAction";
-import { Container } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
+import ProductModal from "./ProductModal";
 
 const columns = [
   { id: "id", label: "Id" },
@@ -52,6 +53,7 @@ const productLimit = 30;
 export default function MyProducts() {
   const dispatch = useDispatch();
   const containerRef = useRef(null);
+  const [showProductModal, setShowProductModal] = useState(false);
 
   const { products, isLoading, error, count } = useSelector(
     (state) => state.myproduct
@@ -85,8 +87,16 @@ export default function MyProducts() {
     setPage(nextPage);
   };
 
+  const toggleProductModal = () => {
+    setShowProductModal(!showProductModal);
+  };
   return (
     <Container>
+      <Row className="justify-content-end mb-3">
+        <Button className="w-auto" onClick={toggleProductModal}>
+          Add Product
+        </Button>
+      </Row>
       <Paper sx={{ width: "100%" }}>
         <TableContainer
           sx={{ maxHeight: calculateMaxHeight(), overflow: "auto" }}
@@ -145,6 +155,7 @@ export default function MyProducts() {
           </Table>
         </TableContainer>
       </Paper>
+      <ProductModal show={showProductModal} handleClose={toggleProductModal} />
     </Container>
   );
 }

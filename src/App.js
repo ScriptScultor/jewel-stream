@@ -13,9 +13,11 @@ import Header from "./Pages/Shared/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchUserData } from "./store/auth/LoginAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import WebPush from "./WebPush";
+import { payloadFromSubscription } from "./Utils/services";
 
 // Create a layout component that includes the Header
 const Layout = ({ children }) => (
@@ -27,14 +29,24 @@ const Layout = ({ children }) => (
 
 function App() {
   const userData = useSelector((state) => state.auth);
-  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [subscribeUserEnabled, setSubscribeUserEnabled] = useState(true);
+
+  const handleSubscribeToggle = () => {
+    setSubscribeUserEnabled(!subscribeUserEnabled);
+  };
+
   useEffect(() => {
+    if (userData.user?.data !== undefined) {
+      // return askForNotificationPermission();
+    }
+
     // Fetch user data and wait for it to complete
     dispatch(fetchUserData())
-      .then(() => {
+      .then((data) => {
         // Data fetched successfully, set loading state to false
         setIsLoading(false);
       })
@@ -42,7 +54,17 @@ function App() {
         // Handle errors, e.g., redirect to login
         setIsLoading(false);
       });
-  }, [dispatch, history]);
+  }, [dispatch, history, userData]);
+
+  const onUpdateSubscriptionOnServer = (subscription) => {
+    console.log("onUpdateSubscriptionOnServer:", subscription);
+    var payload = payloadFromSubscription(subscription);
+    console.log("payload:", JSON.stringify(payload));
+  };
+
+  const onSubscriptionFailed = (error) => {
+    console.log("onSubscriptionFailed:", error);
+  };
 
   if (isLoading) {
     // Display a loading message or spinner
@@ -114,6 +136,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+      <WebPush subscribeUserEnabled={subscribeUserEnabled} />
     </div>
   );
 }

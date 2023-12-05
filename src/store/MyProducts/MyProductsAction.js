@@ -162,3 +162,45 @@ export const editProduct = (product) => async (dispatch) => {
     throw error;
   }
 };
+
+// Redux Thunk action to edit a product
+export const addProduct = (product) => async (dispatch, getState) => {
+  try {
+    dispatch(actionLoading()); // Set editing state to true
+    const { auth } = getState();
+
+    const payloadSetup = {
+      ...product,
+    };
+
+    delete payloadSetup.product_images;
+    delete payloadSetup.product_in_stock;
+
+    payloadSetup["shop_id"] = auth.user.data.shop_draft_id;
+
+    // Extract only the desired fields from the original product data
+    const payload = new FormData();
+    Object.keys(payloadSetup).map((keyName, i) => {
+      return payload.append(keyName, payloadSetup[keyName]);
+    });
+
+    // Replace this with your actual API call to edit the product
+    const result = await makeApiRequest({
+      method: HttpMethod.POST, // or "PATCH" based on your API
+      url: `/jewelstream/api/v1/addProducts`,
+      data: payload, // Send the edited product data
+    });
+
+    // Dispatch success action
+    dispatch(actionSetData(result));
+
+    // Dispatch other actions if needed, indicating success
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.log(error);
+    dispatch(actionError(error.message)); // Update editing error in the state
+    throw error;
+  }
+};
