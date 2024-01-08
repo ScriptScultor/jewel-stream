@@ -1,34 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./ProductDetails.css"; // Import your CSS file for styling
-import { makeApiRequest } from "../../data/axios";
-import logConsole from "../../Utils/logger";
-import Products from "../Products/Products";
+import { useDispatch, useSelector } from "react-redux";
+import "./ProductDetails.css";
+import { fetchProductDetails } from "../../store/Products/ProductsAction";
+
 const ProductDetails = () => {
-  const { mainCategory, subCategory, id } = useParams();
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { productData, productLoading, productError } = useSelector(
+    (state) => state.product
+  );
   const [selectedImage, setSelectedImage] = useState(null);
-  const [product, setProduct] = useState(null);
-  const productsUrl = `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=10&rowNumber=${id}`;
+
   useEffect(() => {
-    makeApiRequest({
-      url: productsUrl,
-    })
-      .then((data) => {
-        setProduct(data.data.result);
-      })
-      .catch((err) => {
-        logConsole(err);
-      });
-  }, [productsUrl]);
+    // Fetch product details when the component mounts
+    dispatch(fetchProductDetails(id));
+  }, [dispatch, id]);
+
   useEffect(() => {
-    if (product && product[0]?.product_images) {
-      setSelectedImage(product[0].product_images[0]);
+    // Update selected image when product data changes
+    if (productData && productData.products.length > 0) {
+      setSelectedImage(productData.product_images_links[0]);
     }
-  }, [product]);
-  if (!product) {
+  }, [productData]);
+
+  console.log(productData, productLoading, productError);
+
+  if (productLoading) {
     // Handle the case where product data is still loading
     return <div>Loading...</div>;
   }
+
+  if (productError) {
+    // Handle the case where there is an error fetching product data
+    return <div>Error fetching product details: {productError}</div>;
+  }
+
   const handleThumbnailClick = (image) => {
     setSelectedImage(image);
   };
@@ -38,16 +45,16 @@ const ProductDetails = () => {
       <div className="product-details-container">
         <div className="productdetails-image-container">
           <img
-            src={selectedImage ?? product[0].product_images_links[0]}
-            alt={product.product_name}
+            src={selectedImage}
+            alt={productData.product_name}
             className="big-image"
           />
           <div className="thumbnail-gallery">
-            {product[0].product_images_links.map((image, index) => (
+            {productData.product_images.split("_KEY_1_").map((image, index) => (
               <img
                 key={index}
                 src={image}
-                alt={`${product.name} Thumbnail ${index}`}
+                alt={`${productData.product_name} Thumbnail ${index}`}
                 className={`thumbnail ${
                   selectedImage === image ? "active" : ""
                 }`}
@@ -58,19 +65,14 @@ const ProductDetails = () => {
         </div>
 
         <div className="product-info">
-          <h1>{product[0].product_name}</h1>
-          <p>{product[0].product_category}</p>
-          <p>{product.product_description}</p>
-          <p>Price: RS {product[0].product_base_price}</p>
+          <h1>{productData.product_name}</h1>
+          <p>{productData.product_category}</p>
+          <p>{productData.product_description}</p>
+          <p>Price: RS {productData.product_base_price}</p>
           <button className="order-button">Get A Quote</button>
           <button className="add-to-cart-button">Add To Cart</button>
         </div>
       </div>
-      <Products
-        moreProducts={10}
-        mainCategory={mainCategory}
-        subCategory={subCategory}
-      />
     </>
   );
 };

@@ -1,25 +1,31 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Jewel Stream",
+  "description": "Jewel Stream is a React.js application designed to showcase and display a curated collection of jewelry products for customers. This web app provides an engaging and user-friendly interface for users to explore a variety of exquisite jewelry items, ranging from rings and necklaces to earrings and bracelets. With a focus on an aesthetically pleasing design, Jewel Stream aims to enhance the online shopping experience for customers seeking high-quality and beautiful jewelry pieces. The application likely includes features such as product filtering, detailed product pages, and a smooth and intuitive navigation system, creating a seamless browsing experience for users interested in exploring and purchasing stunning jewelry products.",
+  "theme_color": "#ffffff",
+  "background_color": "#000000",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "display": "fullscreen",
   "icons": [
+    { "src": "icons/16x16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "icons/32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "icons/72x72.png", "sizes": "72x72", "type": "image/png" },
+    { "src": "icons/96x96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "icons/120x120.png", "sizes": "120x120", "type": "image/png" },
+    { "src": "icons/128x128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "icons/144x144.png", "sizes": "144x144", "type": "image/png" },
+    { "src": "icons/152x152.png", "sizes": "152x152", "type": "image/png" },
+    { "src": "icons/180x180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icons/192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/384x384.png", "sizes": "384x384", "type": "image/png" },
+    { "src": "icons/512x512.png", "sizes": "512x512", "type": "image/png" },
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
+      "src": "icons/512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "maskable"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "name": "Jewel Stream"
 }
