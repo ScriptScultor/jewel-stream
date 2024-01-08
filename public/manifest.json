@@ -3,7 +3,6 @@
   "description": "Jewel Stream is a React.js application designed to showcase and display a curated collection of jewelry products for customers. This web app provides an engaging and user-friendly interface for users to explore a variety of exquisite jewelry items, ranging from rings and necklaces to earrings and bracelets. With a focus on an aesthetically pleasing design, Jewel Stream aims to enhance the online shopping experience for customers seeking high-quality and beautiful jewelry pieces. The application likely includes features such as product filtering, detailed product pages, and a smooth and intuitive navigation system, creating a seamless browsing experience for users interested in exploring and purchasing stunning jewelry products.",
   "theme_color": "#ffffff",
   "background_color": "#000000",
-  "display": "browser",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
