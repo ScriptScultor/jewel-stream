@@ -28,7 +28,7 @@ const Product = ({
         )}
 
         <Link
-          to={`/products/${mainCategory}/${subCategory}/${product.id}`}
+          to={`/products/${mainCategory}/${subCategory}/${product.product_draft_id}`}
           className="order-link"
           onClick={handleProductClick}
         >

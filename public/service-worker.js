@@ -2,16 +2,19 @@
 self.addEventListener("push", (event) => {
   const data = event.data.json(); // Assuming the push notification data is sent as JSON
 
-  const options = {
+  var options = {
     body: data.body || "Default Notification Body",
-    icon: data.icon || "path/to/default/icon.png",
-    badge: data.badge || "path/to/default/badge.png",
+    icon: "/icons/96x96.png",
+    badge: "/icons/96x96.png",
+    data: {
+      url: "https://wappler-dynamic-pwa.herokuapp.com",
+    },
   };
 
   event.waitUntil(
     // eslint-disable-next-line no-restricted-globals
     self.registration.showNotification(
-      data.title || "Default Notification Title",
+      data.body || "Default Notification Title",
       options
     )
   );

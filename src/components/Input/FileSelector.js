@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./Inputs.css"; // Import your CSS file
 
 const CustomImageUploader = ({
-  identifier,
+  identifier = "image-upload",
   isError,
   errorText,
   onChange,
