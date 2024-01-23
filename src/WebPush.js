@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import { HttpMethod, makeApiRequest } from "./data/axios";
 const WebPush = ({ subscribeUserEnabled }) => {
   const [subscription, setSubscription] = useState(null);
 
@@ -12,7 +12,13 @@ const WebPush = ({ subscribeUserEnabled }) => {
         const subscription = await registration.pushManager.getSubscription();
 
         if (subscription) {
-          console.log(JSON.stringify(subscription));
+          // console.log(JSON.stringify(subscription));
+          // Replace this with your actual API call to edit the product
+        const result = await makeApiRequest({
+          method: HttpMethod.POST, // or "PATCH" based on your API
+          url: `/jewelstream/api/v1/jewelStreamSubscribeNotification`,
+          data: subscription, // Send the edited product data
+        });
           setSubscription(subscription);
         } else {
           const publicKey =

@@ -57,7 +57,7 @@ const ProductCell = ({ column, product }) => {
                 title: "View Product",
                 onClick: () => {
                   history.push(
-                    `/products/${product.product_category}/${product.product_name}/${product.id}`
+                    `/products/${product.product_category}/${product.product_name}/${product.product_draft_id}`
                   );
                 },
               },

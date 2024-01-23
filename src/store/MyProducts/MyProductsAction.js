@@ -103,7 +103,7 @@ export const deleteProduct = (product) => async (dispatch) => {
 
     const result = await makeApiRequest({
       method: HttpMethod.DELETE,
-      url: `/jewelstream/api/v1/target=PRODUCTS&rowNumber=${product.product_draft_id}      `,
+      url: `/jewelstream/api/v1/deleteProducts?target=PRODUCTS&rowNumber=${product.product_draft_id}`,
     }); // Implement this function accordingly
 
     // Dispatch success action
