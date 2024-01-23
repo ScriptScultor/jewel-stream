@@ -24,7 +24,7 @@ const Header = () => {
           <Navbar.Brand as={Link} to="/">
             <img
               className="logo"
-              src="https://drive.google.com/uc?export=view&id=1I0wdxR7U_nTXZBglx9U7BMDYAZB2ii6Y"
+              src="https://firebasestorage.googleapis.com/v0/b/jewllery-website.appspot.com/o/images%2FScreenshot%202023-09-21%20230333.png?alt=media&token=a5a83c11-67a0-4ff6-be53-914c9c501d42"
               alt=""
             />
           </Navbar.Brand>

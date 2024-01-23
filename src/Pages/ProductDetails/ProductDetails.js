@@ -19,8 +19,12 @@ const ProductDetails = () => {
 
   useEffect(() => {
     // Update selected image when product data changes
-    if (productData && productData.products.length > 0) {
-      setSelectedImage(productData.product_images_links[0]);
+    if (!productData) {
+      return;
+    }
+    let images = productData.product_images.split("_KEY_1_");
+    if (images.length > 0) {
+      setSelectedImage(images[0]);
     }
   }, [productData]);
 

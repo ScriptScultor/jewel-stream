@@ -39,10 +39,10 @@ export const fetchProductDetails =
       dispatch(setProductLoading()); // Set loading state to true
 
       const response = await makeApiRequest({
-        url: `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=10&rowNumber=${productId}`,
+        url: `/jewelstream/api/v1/getproducts?usertype=guest&type=all&subtype=all&offset=0&limit=10&product_id=${productId}`,
       });
 
-      dispatch(setProductData(response.data)); // Update product data in the state
+      dispatch(setProductData(response.data.result[0])); // Update product data in the state
 
       // Dispatch other actions if needed, indicating success
       return {
